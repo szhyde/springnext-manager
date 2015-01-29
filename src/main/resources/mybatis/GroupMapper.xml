@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" 
+"http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<!-- namespace必须指向Dao接口 -->
+<mapper namespace="org.springnext.manager.base.repository.mybatis.GroupMybatisDao">
+
+	<select id="search" parameterType="map" resultType="Group">
+		SELECT tg.tid,tg.group_name as groupName,tg.parent_id as pid,gb.child FROM t_group tg LEFT JOIN 
+		(SELECT parent_id,count(tid) as child FROM t_group where is_delete = false group by parent_id) gb 
+		on tg.tid = gb.parent_id
+		<where>
+			<if test=" parentId == 0">
+				tg.parent_id is null
+			</if>
+			<if test="parentId != 0">
+				tg.parent_id = #{parentId}
+			</if>
+			AND tg.is_delete = false    
+		</where>
+	</select>
+	
+</mapper> 
