@@ -6,6 +6,11 @@
   <packaging>war</packaging>
   <version>0.0.1-SNAPSHOT</version>
   <name>springnext-manager Maven Webapp</name>
+  <parent>
+		<groupId>org.springframework.boot</groupId>
+		<artifactId>spring-boot-starter-parent</artifactId>
+		<version>1.5.7.RELEASE</version>
+	</parent>
   <url>http://maven.apache.org</url>
   	<properties>
 		<!-- 数据库 -->
