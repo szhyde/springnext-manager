@@ -1,0 +1,19 @@
+language: java
+jdk:
+  - oraclejdk8
+
+install: true
+script:
+  - "cd modules;mvn clean test"
+  - jdk_switcher use oraclejdk8 
+  - "mvn clean test"
+  - mvn clean package -Dmaven.test.skip=true
+  - jdk_switcher use oraclejdk8
+  - "mvn test"
+  - "mvn clean package -Dmaven.test.skip=true" 
+  - jdk_switcher use oraclejdk8
+  - "mvn test"  
+
+branches:
+  only:
+    - master 
