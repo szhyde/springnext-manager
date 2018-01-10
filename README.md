@@ -1,48 +1,36 @@
 travis-ci status:[![Build Status](https://api.travis-ci.org/szhyde/springnext-manager.png?branch=master)](https://travis-ci.org/szhyde/springnext-manager/)
 
 # springnext #
+springnext是spring的模板项目
 ==========
+本工程是在管理后台的应用。
 
-一个Spirng的模板项目，原则:不重复做轮子
-
-产品选型：
-
+所应用的相关开源项目：
 ## 1.Web ##
 
-MVC Framwork： SpringMVC
+MVC框架： SpringMVC
 
-Layout Decoration： SiteMesh2
+模板引擎： SiteMesh2
 
 Javascript Library： JQuery
 
-JavaScript/CSS Compressor: BUI
+UI框架:  Ace Admin
 
-Validation: JS Validation:BUI,JAVA Validation:Hibernate Valiator
-
-## 2.WebService ##
-SOAP WebService:Apache CXF
-
-Restful:CXF 与 SpringMVC
-
-## 3.Database ##
+## 2.Database ##
 ORM Framework：JPA 与 MyBatis,混用,MyBatis主要用于复杂查询
 
 NOSQL数据库:Redis
 
-数据库连接池: Tomcat JDBC
+数据库连接池: druid
 
 Cache：JVM级：Ehcache，中央式缓存：Memcached
 
-## 4.Services ##
+## 3.Services ##
 Security Framework： Apache Shiro
-
-JMS： ActiveMQ for spring
 
 Schedule：Quartz
 
-JMX：Jolokia
-
-## 5.Utilizes ##
+## 4.Utilizes ##
 General： Apache Commons 与 google Guava
 
 XML: JAXB
@@ -54,7 +42,7 @@ Email:Spring for Email
 Logging:Slf4j 与 Logback
 
 
-## 6.Test ##
+## 5.Test ##
 Unit Test： JUnit
 
 Mock：Mockito
