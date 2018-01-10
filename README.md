@@ -1,3 +1,5 @@
+travis-ci status:[![Build Status](https://api.travis-ci.org/szhyde/springnext-manager.png?branch=master)](https://travis-ci.org/szhyde/springnext-manager/)
+
 # springnext #
 ==========
 
