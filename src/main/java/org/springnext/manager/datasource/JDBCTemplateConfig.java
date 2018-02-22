@@ -22,15 +22,10 @@ import org.springframework.jdbc.core.JdbcTemplate;
 @Configuration
 public class JDBCTemplateConfig {
 
-    @Bean(name = "userJdbcTemplate")
-    public JdbcTemplate userJdbcTemplate(@Qualifier("userDataSource") DataSource dataSource) {
-        return new JdbcTemplate(dataSource);
-    }
-
-    @Bean(name = "cloudJdbcTemplate")
-    //主数据源
+	//主数据源
     @Primary
-    public JdbcTemplate secondaryJdbcTemplate(@Qualifier("cloudDataSource") DataSource dataSource) {
+    @Bean(name = "jdbcTemplate")
+    public JdbcTemplate userJdbcTemplate(@Qualifier("dataSource") DataSource dataSource) {
         return new JdbcTemplate(dataSource);
     }
 

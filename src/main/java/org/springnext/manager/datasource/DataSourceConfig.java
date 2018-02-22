@@ -32,20 +32,14 @@ import org.springframework.context.annotation.Primary;
 @Configuration
 public class DataSourceConfig {
 
-    @Bean(name = "userDataSource")
-    @Qualifier("userDataSource")
-    @ConfigurationProperties(prefix="spring.datasource.user")
+	//主数据源,多数据源时用来区分
+    @Primary
+    @Bean(name = "dataSource")
+    @Qualifier("dataSource")
+    @ConfigurationProperties(prefix="spring.datasource.springnext")
     public DataSource imDataSource() {
         return DataSourceBuilder.create().build();
     }
 
-    @Bean(name = "cloudDataSource")
-    //主数据源
-    @Primary
-    @Qualifier("cloudDataSource")
-    @ConfigurationProperties(prefix="spring.datasource.cloud")
-    public DataSource secondaryDataSource() {
-        return DataSourceBuilder.create().build();
-    }
 
 }
