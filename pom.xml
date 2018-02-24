@@ -155,7 +155,21 @@
 			<artifactId>thymeleaf-extras-shiro</artifactId>
 			<version>${thymeleaf-extras-shiro.version}</version>
 		</dependency>
+<dependency>
+    <groupId>org.hibernate</groupId>
+    <artifactId>hibernate-ehcache</artifactId>
+    <exclusions>
+        <exclusion>
+            <groupId>net.sf.ehcache</groupId>
+            <artifactId>ehcache-core</artifactId>
+        </exclusion>
+    </exclusions>
+</dependency>
 
+<dependency>
+    <groupId>net.sf.ehcache</groupId>
+    <artifactId>ehcache</artifactId>
+</dependency> 
 		<dependency>
     <groupId>javax.xml.bind</groupId>
     <artifactId>jaxb-api</artifactId>

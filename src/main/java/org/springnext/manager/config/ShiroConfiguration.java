@@ -70,8 +70,8 @@ public class ShiroConfiguration {
                     .setSecurityManager(getDefaultWebSecurityManager());  
             shiroFilterFactoryBean.setLoginUrl("/login/view");  
             shiroFilterFactoryBean.setSuccessUrl("/main/view");  
-            //filterChainDefinitionMap.put("/**", "authc");  
             filterChainDefinitionMap.put("/login/**", "anon");  
+            filterChainDefinitionMap.put("/**", "authc");  
             shiroFilterFactoryBean  
                     .setFilterChainDefinitionMap(filterChainDefinitionMap);  
             return shiroFilterFactoryBean;  
