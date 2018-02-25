@@ -18,14 +18,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 @Controller
-@RequestMapping("/main")
 public class MainController {
     
     private static final Logger LOGGER = LoggerFactory.getLogger(MainController.class);
 
-    @RequestMapping("/view")
+    @RequestMapping("/")
     public String view() {
-        return "/main/view";
+        return "/index";
     }
 
 }
