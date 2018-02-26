@@ -41,7 +41,7 @@ public class UserController {
 	 */
 	@RequestMapping(value = "list")
 	public String list() {
-		return "base/user/list";
+		return "base/user";
 	}
 	
 	
