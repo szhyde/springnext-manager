@@ -1,7 +1,3 @@
-/*
- * 修改单号： 修改内容：
- */
-
 package org.springnext.manager.base.config;
 
 import java.util.LinkedHashMap;
@@ -19,6 +15,11 @@ import org.springnext.manager.base.shiro.ShiroDbRealm;
 
 import at.pollux.thymeleaf.shiro.dialect.ShiroDialect;
 
+/**
+ * Shiro框架的相关配置文件
+ * @author HyDe
+ *
+ */
 @Configuration  
 public class ShiroConfiguration {  
       
