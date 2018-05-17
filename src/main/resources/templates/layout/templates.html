@@ -1,10 +1,10 @@
-<!DOCTYPE html>
+<!DOCTYPE html SYSTEM "http://www.thymeleaf.org/dtd/xhtml1-strict-thymeleaf-4.dtd">
 <html xmlns:th="http://www.thymeleaf.org" xmlns:layout="http://www.ultraq.net.nz/web/thymeleaf/layout">
 	<head th:fragment="head(title,description)">
 		<meta http-equiv="X-UA-Compatible" content="IE=edge,chrome=1" />
 		
-		<title>${title}</title>
-		<meta name="description" content="${description}" />
+		<title th:text="${title}"></title>
+		<meta name="description" th:content="${description}" />
 		
 		<meta charset="utf-8" />
 		<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0" />
@@ -61,7 +61,7 @@
 					<a href="index.html" class="navbar-brand">
 						<small>
 							<i class="fa fa-leaf"></i>
-							Ace Admin
+							SpringNext管理平台
 						</small>
 					</a>
 				</div>
@@ -414,7 +414,7 @@
 						<b class="arrow"></b>
 					</li>
 					<li>
-						<a href="/user/list">
+						<a th:href="@{/user/list}">
 							<i class="menu-icon fa fa-tachometer"></i>
 							<span class="menu-text"> Dashboard </span>
 						</a>

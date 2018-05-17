@@ -10,7 +10,7 @@ springnext是spring的模板项目
 
 MVC框架： SpringMVC
 
-模板引擎： SiteMesh2
+模板引擎： thymeleaf
 
 Javascript Library： JQuery
 
