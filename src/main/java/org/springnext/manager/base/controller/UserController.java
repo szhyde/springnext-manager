@@ -3,20 +3,17 @@ package org.springnext.manager.base.controller;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
-import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestMethod;
-import org.springframework.web.bind.annotation.ResponseBody;
 import org.springnext.manager.base.entity.User;
 import org.springnext.manager.base.service.UserService;
 import org.springnext.manager.base.utils.Servlets;
+import org.springnext.manager.base.vo.JqGridPagesVO;
 
 /**
  * 用户控制器
@@ -24,7 +21,7 @@ import org.springnext.manager.base.utils.Servlets;
  *
  */
 @Controller
-@RequestMapping(value = "/user")
+@RequestMapping(value = "/base/user")
 public class UserController {
 	
 	@Autowired
@@ -41,31 +38,31 @@ public class UserController {
 	 */
 	@RequestMapping(value = "list")
 	public String list() {
-		return "base/user";
+		return "base/user/list";
 	}
 	
 	
-//	/**
-//	 * 用户列表页
-//	 * 
-//	 * @param pages
-//	 * @param model
-//	 * @param request
-//	 * @param result
-//	 * @return
-//	 */
-//	@RequestMapping(value = "list")
-//	public String list(PagesVO pages, Model model,ServletRequest request,BindingResult result) {
-//		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
-//		Page<User> userPage = userService.searchUserListPage(searchParams,pages.getPageNum()-1,pages.getPageSize(),pages.getOrderField(),pages.getOrderDirection());
+	/**
+	 * 用户列表页
+	 * 
+	 * @param pages
+	 * @param model
+	 * @param request
+	 * @param result
+	 * @return
+	 */
+	@RequestMapping(value = "list")
+	public String list(JqGridPagesVO pages, Model model,ServletRequest request,BindingResult result) {
+		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
+		Page<User> userPage = userService.searchUserListPage(searchParams,pages.getPage(),pages.getRows(),pages.getSidx(),pages.getSord());
 //		pages.setTotalCount(Long.valueOf(userPage.getTotalElements()).intValue());
-//		model.addAttribute("userList", userPage.getContent());
-//		model.addAttribute("totalCount", userPage.getTotalElements());
-//		model.addAttribute("pages", pages);
-//		model.addAttribute("searchParams", Servlets.getParametersByPrefix(request, "search_"));
-//		return "base/user/list";
-//	}
-//	
+		model.addAttribute("userList", userPage.getContent());
+		model.addAttribute("totalCount", userPage.getTotalElements());
+		model.addAttribute("pages", pages);
+		model.addAttribute("searchParams", Servlets.getParametersByPrefix(request, "search_"));
+		return "base/user/list";
+	}
+	
 //	/**
 //	 * 增加用户跳转
 //	 * @param model
