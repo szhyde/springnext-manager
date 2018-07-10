@@ -13,7 +13,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springnext.manager.base.entity.User;
 import org.springnext.manager.base.service.UserService;
 import org.springnext.manager.base.utils.Servlets;
-import org.springnext.manager.base.vo.JqGridPagesVO;
+import org.springnext.manager.base.vo.JqGridRequestVO;
 
 /**
  * 用户控制器
@@ -52,7 +52,7 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "list")
-	public String list(JqGridPagesVO pages, Model model,ServletRequest request,BindingResult result) {
+	public String list(JqGridRequestVO pages, Model model,ServletRequest request,BindingResult result) {
 		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 		Page<User> userPage = userService.searchUserListPage(searchParams,pages.getPage(),pages.getRows(),pages.getSidx(),pages.getSord());
 //		pages.setTotalCount(Long.valueOf(userPage.getTotalElements()).intValue());

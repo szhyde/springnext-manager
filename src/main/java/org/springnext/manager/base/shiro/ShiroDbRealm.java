@@ -16,7 +16,7 @@ import org.apache.shiro.realm.AuthorizingRealm;
 import org.apache.shiro.subject.PrincipalCollection;
 import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springnext.manager.base.domain.ShiroUser;
+import org.springnext.manager.base.dto.ShiroUser;
 import org.springnext.manager.base.entity.Permissions;
 import org.springnext.manager.base.entity.Role;
 import org.springnext.manager.base.entity.User;

@@ -17,7 +17,7 @@ import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
-import org.springnext.manager.base.domain.ShiroUser;
+import org.springnext.manager.base.dto.ShiroUser;
 import org.springnext.manager.base.entity.User;
 import org.springnext.manager.base.persistence.DynamicSpecifications;
 import org.springnext.manager.base.persistence.SearchFilter;
