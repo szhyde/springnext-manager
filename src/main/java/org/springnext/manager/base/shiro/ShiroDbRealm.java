@@ -18,7 +18,6 @@ import org.apache.shiro.util.ByteSource;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springnext.manager.base.dto.ShiroUser;
 import org.springnext.manager.base.entity.Permissions;
-import org.springnext.manager.base.entity.Role;
 import org.springnext.manager.base.entity.User;
 import org.springnext.manager.base.service.UserService;
 import org.springnext.manager.base.utils.Encodes;
@@ -68,18 +67,16 @@ public class ShiroDbRealm extends AuthorizingRealm
 
 		SimpleAuthorizationInfo info = new SimpleAuthorizationInfo();
 
-		for (Role role : user.getRoles()) {
 			// 基于Role的权限信息
-			info.addRole(role.getRole());
+			info.addRole(user.getRole().getRole());
 			// 基于Permission的权限信息
 			info.addStringPermissions(Collections2.transform(
-					role.getPermissions(), new Function<Permissions, String>() {
+					user.getRole().getPermissions(), new Function<Permissions, String>() {
 						@Override
 						public String apply(Permissions arg0) {
 							return arg0.getPermissions();
 						}
 					}));
-		}
 
 		return info;
 	}

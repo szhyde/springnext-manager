@@ -1,28 +1,14 @@
-package org.springnext.manager.base.entity;
+package org.springnext.manager.base.dto;
 
-import javax.persistence.Entity;
-import javax.persistence.JoinColumn;
-import javax.persistence.ManyToOne;
-import javax.persistence.Table;
+import java.io.Serializable;
 
-import org.hibernate.annotations.Cache;
-import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
+import org.springframework.beans.BeanUtils;
+import org.springnext.manager.base.entity.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
-/**
- * 用户表
- * 
- * @author HyDe
- *
- */
-@Entity
-@Table(name = "t_user")
-/* 默认的缓存策略 */
-@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
-public class User extends BaseEntity {
+public class UserDTO extends BaseDTO implements Serializable {
+
 	/**
 	 * 
 	 */
@@ -30,7 +16,6 @@ public class User extends BaseEntity {
 	/**
 	 * 登录名
 	 */
-	@NotBlank
 	private String loginName;
 	/**
 	 * 登录密码
@@ -45,30 +30,33 @@ public class User extends BaseEntity {
 	/**
 	 * 用户名
 	 */
-	@NotBlank
 	private String userName;
 	/**
 	 * 邮箱
 	 */
-	@Email
 	private String email;
+	/**
+	 * 手机
+	 */
+	private String phone;
 	/**
 	 * 用户状态
 	 */
-	@NotBlank
 	private String userStatus;
+
 	/**
-	 * 所在用户
+	 * 所属组织
 	 */
-	@ManyToOne
-	@JoinColumn(name = "group_id")
-	private Group group;
+	private Long groupID;
+
+	private String groupName;
+
 	/**
 	 * 所属角色
 	 */
-	@ManyToOne
-	@JoinColumn(name = "role_id")
-	private Role role;
+	private Long roleID;
+
+	private String roleName;
 
 	public String getLoginName() {
 		return loginName;
@@ -118,20 +106,56 @@ public class User extends BaseEntity {
 		this.userStatus = userStatus;
 	}
 
-	public Group getGroup() {
-		return group;
+	public Long getGroupID() {
+		return groupID;
 	}
 
-	public void setGroup(Group group) {
-		this.group = group;
+	public void setGroupID(Long groupID) {
+		this.groupID = groupID;
 	}
 
-	public Role getRole() {
-		return role;
+	public String getGroupName() {
+		return groupName;
 	}
 
-	public void setRole(Role role) {
-		this.role = role;
+	public void setGroupName(String groupName) {
+		this.groupName = groupName;
 	}
 
+	public Long getRoleID() {
+		return roleID;
+	}
+
+	public void setRoleID(Long roleID) {
+		this.roleID = roleID;
+	}
+
+	public String getRoleName() {
+		return roleName;
+	}
+
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
+	}
+	
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
+	}
+
+	public static User transformToUser(UserDTO userDTO) {
+		User user = new User();
+		BeanUtils.copyProperties(userDTO, user);
+		return user;
+	}
+
+	public static UserDTO transformToUserDTO(User user) {
+		UserDTO userDTO = new UserDTO();
+		BeanUtils.copyProperties(user, userDTO);
+		return userDTO;
+	}
 }

@@ -1,4 +1,4 @@
-package org.springnext.manager.base.domain;
+package org.springnext.manager.base.dto;
 
 import java.io.Serializable;
 import java.util.Objects;

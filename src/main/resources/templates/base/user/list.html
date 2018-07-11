@@ -94,10 +94,10 @@ jQuery(function($) {
 	
 	jQuery(grid_selector).jqGrid({
 		//direction: "rtl",
-		data: grid_data,
-		datatype: "local",
+		url: 'queryList',
+        mtype: "GET",
 		height: 'auto',
-		colNames:[' ', 'ID','Last Sales','Name', 'Stock', 'Ship via','Notes'],
+		colNames:[' ', 'tid','loginName','userName', 'email', 'phone','userStatus'],
 		colModel:[
 			{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
 				formatter:'actions', 
@@ -109,12 +109,12 @@ jQuery(function($) {
 					//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
 				}
 			},
-			{name:'id',index:'id', width:60, sorttype:"int", editable: true},
-			{name:'sdate',index:'sdate',width:90, editable:true, sorttype:"date",unformat: pickDate},
-			{name:'name',index:'name', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stock',index:'stock', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
-			{name:'ship',index:'ship', width:90, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
-			{name:'note',index:'note', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
+			{name:'tid',index:'tid', width:60, sorttype:"int", editable: true},
+			{name:'sdate',index:'loginName',width:90, editable:true, sorttype:"date",unformat: pickDate},
+			{name:'name',index:'userName', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'stock',index:'email', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
+			{name:'ship',index:'phone', width:90, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
+			{name:'note',index:'userStatus', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
 		], 
 
 		viewrecords : true,

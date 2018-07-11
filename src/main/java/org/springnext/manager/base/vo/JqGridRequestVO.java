@@ -2,16 +2,16 @@ package org.springnext.manager.base.vo;
 
 import java.io.Serializable;
 
-public class JqGridPagesVO implements Serializable {
+import org.apache.commons.lang3.StringUtils;
+import org.springframework.data.domain.PageRequest;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
+
+public class JqGridRequestVO implements Serializable {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 2172260021261986128L;
-
-	/**
-     * 总页数
-     */
-    private Integer total;
+	private static final long serialVersionUID = -1L;
 
     /**
      * 当前页
@@ -29,17 +29,9 @@ public class JqGridPagesVO implements Serializable {
     private String sidx;
 
     /**
-     * 排序
+     * 排序方式
      */
     private String sord;
-
-	public Integer getTotal() {
-		return total;
-	}
-
-	public void setTotal(Integer total) {
-		this.total = total;
-	}
 
 	public Integer getPage() {
 		return page;
@@ -73,4 +65,13 @@ public class JqGridPagesVO implements Serializable {
 		this.sord = sord;
 	}
     
+	public PageRequest toPageRequest() {
+		if(StringUtils.isBlank(sord)) {
+			sord = "desc";
+		}
+		if(StringUtils.isBlank(sidx)) {
+			sidx = "tid";
+		}
+		return new PageRequest(page,rows,new Sort(Direction.fromString(sord),sidx));
+	}
 }

@@ -31,6 +31,7 @@
 		<!-- Monitor -->
 		<javasimon.version>3.5.1</javasimon.version>
 		<mybatis.version>1.3.1</mybatis.version>
+		<dozer.version>5.5.1</dozer.version>
 
 	</properties>
 
@@ -50,11 +51,11 @@
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-jpa</artifactId>
 		</dependency>
-		<dependency>  
-            <groupId>org.mybatis.spring.boot</groupId>  
-            <artifactId>mybatis-spring-boot-starter</artifactId>  
-            <version>${mybatis.version}</version>  
-        </dependency>
+		<dependency>
+			<groupId>org.mybatis.spring.boot</groupId>
+			<artifactId>mybatis-spring-boot-starter</artifactId>
+			<version>${mybatis.version}</version>
+		</dependency>
 		<!-- 引入系统监控相关依赖 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -64,6 +65,12 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-data-redis</artifactId>
+		</dependency>
+		<!-- 打开springboot开发模式，实现热加载 -->
+		<dependency>
+			<groupId> org.springframework.boot </groupId>
+			<artifactId> spring-boot-devtools </artifactId>
+			<optional>true</optional>
 		</dependency>
 		<!-- 数据库 -->
 		<dependency>
@@ -75,7 +82,12 @@
 			<groupId>com.h2database</groupId>
 			<artifactId>h2</artifactId>
 		</dependency>
-
+		<!-- optional for BeanMapper -->
+		<dependency>
+			<groupId>net.sf.dozer</groupId>
+			<artifactId>dozer</artifactId>
+			<version>${dozer.version}</version>
+		</dependency>
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
@@ -128,8 +140,6 @@
 			<artifactId>guava</artifactId>
 			<version>${guava.version}</version>
 		</dependency>
-
-
 		<dependency>
 			<groupId>org.apache.shiro</groupId>
 			<artifactId>shiro-core</artifactId>
@@ -155,31 +165,31 @@
 			<artifactId>thymeleaf-extras-shiro</artifactId>
 			<version>${thymeleaf-extras-shiro.version}</version>
 		</dependency>
-<dependency>
-    <groupId>org.hibernate</groupId>
-    <artifactId>hibernate-ehcache</artifactId>
-    <exclusions>
-        <exclusion>
-            <groupId>net.sf.ehcache</groupId>
-            <artifactId>ehcache-core</artifactId>
-        </exclusion>
-    </exclusions>
-</dependency>
-
-<dependency>
-    <groupId>net.sf.ehcache</groupId>
-    <artifactId>ehcache</artifactId>
-</dependency> 
 		<dependency>
-    <groupId>javax.xml.bind</groupId>
-    <artifactId>jaxb-api</artifactId>
-    <version>2.3.0</version>
-</dependency>
-<dependency>
-    <groupId>org.eclipse.persistence</groupId>
-    <artifactId>eclipselink</artifactId>
-    <version>2.7.0</version>
-</dependency>
+			<groupId>org.hibernate</groupId>
+			<artifactId>hibernate-ehcache</artifactId>
+			<exclusions>
+				<exclusion>
+					<groupId>net.sf.ehcache</groupId>
+					<artifactId>ehcache-core</artifactId>
+				</exclusion>
+			</exclusions>
+		</dependency>
+
+		<dependency>
+			<groupId>net.sf.ehcache</groupId>
+			<artifactId>ehcache</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>javax.xml.bind</groupId>
+			<artifactId>jaxb-api</artifactId>
+			<version>2.3.0</version>
+		</dependency>
+		<dependency>
+			<groupId>org.eclipse.persistence</groupId>
+			<artifactId>eclipselink</artifactId>
+			<version>2.7.0</version>
+		</dependency>
 	</dependencies>
 
 	<build>

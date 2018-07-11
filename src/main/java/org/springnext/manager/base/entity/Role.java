@@ -6,6 +6,7 @@ import javax.persistence.Entity;
 import javax.persistence.JoinColumn;
 import javax.persistence.JoinTable;
 import javax.persistence.ManyToMany;
+import javax.persistence.OneToMany;
 import javax.persistence.OrderBy;
 import javax.persistence.Table;
 
@@ -28,7 +29,7 @@ public class Role extends BaseEntity {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -4267250227814362742L;
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 角色名,英文用于系统权限判断
 	 */
@@ -55,14 +56,7 @@ public class Role extends BaseEntity {
 	 * 所属用户
 	 */
 	/* 多对多定义 */
-	@ManyToMany
-	@JoinTable(name = "t_user_role", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "user_id") })
-	/* 加载策略定义 */
-	@Fetch(FetchMode.SUBSELECT)
-	/* 集合按id排序 */
-	@OrderBy("tid ASC")
-	/* 缓存策略 */
-	@Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
+	@OneToMany(mappedBy = "role")
 	private List<User> users;
 
 	public String getRole() {

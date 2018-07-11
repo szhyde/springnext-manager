@@ -10,10 +10,13 @@ import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.ResponseBody;
+import org.springnext.manager.base.dto.UserDTO;
 import org.springnext.manager.base.entity.User;
 import org.springnext.manager.base.service.UserService;
 import org.springnext.manager.base.utils.Servlets;
 import org.springnext.manager.base.vo.JqGridRequestVO;
+import org.springnext.manager.base.vo.JqGridResponseVO;
 
 /**
  * 用户控制器
@@ -51,16 +54,16 @@ public class UserController {
 	 * @param result
 	 * @return
 	 */
-	@RequestMapping(value = "list")
-	public String list(JqGridRequestVO pages, Model model,ServletRequest request,BindingResult result) {
+	@RequestMapping(value = "queryList")
+	public @ResponseBody JqGridResponseVO<UserDTO> queryList(JqGridRequestVO pages, Model model,ServletRequest request,BindingResult result) {
 		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
-		Page<User> userPage = userService.searchUserListPage(searchParams,pages.getPage(),pages.getRows(),pages.getSidx(),pages.getSord());
-//		pages.setTotalCount(Long.valueOf(userPage.getTotalElements()).intValue());
-		model.addAttribute("userList", userPage.getContent());
-		model.addAttribute("totalCount", userPage.getTotalElements());
-		model.addAttribute("pages", pages);
-		model.addAttribute("searchParams", Servlets.getParametersByPrefix(request, "search_"));
-		return "base/user/list";
+		Page<User> userPage = userService.searchUserListPage(searchParams,pages.toPageRequest());
+		JqGridResponseVO<UserDTO> jqGridResponseVO = new JqGridResponseVO<UserDTO>();
+		jqGridResponseVO.setPage(pages.getPage());
+		jqGridResponseVO.setRecords(userPage.getTotalElements());
+		jqGridResponseVO.setTotal(userPage.getTotalElements()/pages.getRows()+userPage.getTotalElements()%pages.getRows());
+		jqGridResponseVO.addRows(userPage.getContent(), UserDTO.class);
+		return jqGridResponseVO;
 	}
 	
 //	/**

@@ -12,8 +12,6 @@ import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
-import org.springframework.data.domain.Sort;
-import org.springframework.data.domain.Sort.Direction;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -74,8 +72,7 @@ public class UserService {
 	/**
 	 * 按页面传来的查询条件查询用户.
 	 */
-	public Page<User> searchUserListPage(Map<String, Object> searchParams,
-			int pageIndex, int pageSize, String sortField, String sortType) {
+	public Page<User> searchUserListPage(Map<String, Object> searchParams,PageRequest pageRequest) {
 		logger.info("用户{}再在检索用户数据.", getCurrentLoginName());
 		//增加搜索项，只查询未删除的用户
 		searchParams.put("EQ_isDelete", Boolean.FALSE);
@@ -84,9 +81,7 @@ public class UserService {
 		//拼接查询条件
 		Specification<User> spec = DynamicSpecifications.bySearchFilter(
 				filters.values(), User.class);
-		Page<User> userListPage = userDao.findAll(spec, new PageRequest(
-				pageIndex, pageSize, new Sort(Direction.fromString(sortType),
-						sortField)));
+		Page<User> userListPage = userDao.findAll(spec, pageRequest);
 		return userListPage;
 	}
 

@@ -9,12 +9,14 @@ DROP TABLE if EXISTS t_role_permissions;
 CREATE TABLE t_user (
   tid BIGINT NOT NULL AUTO_INCREMENT,
   login_name VARCHAR(255) NOT NULL,
-  login_password VARCHAR(255) NULL,
-  password_salt VARCHAR(64) NULL,
-  user_name VARCHAR(255) NULL,
+  login_password VARCHAR(255) NOT NULL,
+  password_salt VARCHAR(64) NOT NULL,
+  user_name VARCHAR(255) NOT NULL,
   email VARCHAR(128) NULL,
-  user_status VARCHAR(32) NULL,
-  group_id BIGINT NULL,
+  phone VARCHAR(128) NULL,
+  user_status VARCHAR(32) NOT NULL,
+  group_id BIGINT NOT NULL,
+  role_id BIGINT NOT NULL,
   is_delete boolean NOT NULL,
   PRIMARY KEY (tid),
   UNIQUE INDEX login_name_UNIQUE (login_name ASC));
@@ -56,21 +58,16 @@ CREATE TABLE t_resources (
   PRIMARY KEY (tid));
 
 
-CREATE TABLE t_user_role (
-  user_id BIGINT NOT NULL,
-  role_id BIGINT NOT NULL,
-  PRIMARY KEY (user_id, role_id));
-
-
 CREATE TABLE t_role_permissions (
   role_id BIGINT NOT NULL,
   permissions_id BIGINT NOT NULL,
   PRIMARY KEY (role_id, permissions_id));
   
+INSERT INTO t_role(role,remark,is_delete)VALUES('super_admin','超级管理员',false);
 INSERT INTO t_group(group_name,is_delete)VALUES('SpringNext',false);
 
 INSERT INTO t_user
 (login_name,login_password,password_salt,
-user_name,email,user_status,group_id,is_delete)
+user_name,email,user_status,group_id,role_id,is_delete)
 VALUES('hyde','d84d2c9b86d5ffc6999b24ab21bbc674e25b6bce',
-'84520b3c01901d06','HyDe','szhyde@qq.com','enable',1,false);
+'84520b3c01901d06','HyDe','szhyde@qq.com','enable',1,1,false);
