@@ -6,30 +6,19 @@
 	<artifactId>manager</artifactId>
 	<version>1.0.0-SNAPSHOT</version>
 	<!-- 先以war的方式发布 -->
-	<packaging>war</packaging>
+	<packaging>jar</packaging>
 	<name>springnext-manager Maven Webapp</name>
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
-		<version>1.5.9.RELEASE</version>
+		<version>2.0.3.RELEASE</version>
 	</parent>
 	<!-- 覆写spring boot的JDK版本 -->
 	<properties>
 		<java.version>1.8</java.version>
-		<shiro.version>1.3.2</shiro.version>
-		<!-- 原有的thymeleaf版本太老,要强制检查HTML标签闭合升级到3.0版本解决 -->
-		<thymeleaf.version>3.0.6.RELEASE</thymeleaf.version>
-		<thymeleaf-extras-shiro.version>2.0.0</thymeleaf-extras-shiro.version>
-		<thymeleaf-layout-dialect.version>2.2.2</thymeleaf-layout-dialect.version>
-		<!-- apache-commons -->
-		<commons-lang3.version>3.3.2</commons-lang3.version>
-		<commons-io.version>2.4</commons-io.version>
-		<commons-codec.version>1.9</commons-codec.version>
-		<commons-beanutils.version>1.9.2</commons-beanutils.version>
 		<!-- google java library -->
-		<guava.version>17.0</guava.version>
+		<guava.version>25.1-jre</guava.version>
 		<!-- Monitor -->
-		<javasimon.version>3.5.1</javasimon.version>
 		<mybatis.version>1.3.1</mybatis.version>
 		<dozer.version>5.5.1</dozer.version>
 
@@ -41,6 +30,10 @@
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
 			<artifactId>spring-boot-starter-thymeleaf</artifactId>
+		</dependency>
+		<dependency>
+			<groupId>org.springframework.boot</groupId>
+			<artifactId>spring-boot-starter-web</artifactId>
 		</dependency>
 		<!-- 引入jdbc相关依赖 -->
 		<dependency>
@@ -56,6 +49,10 @@
 			<artifactId>mybatis-spring-boot-starter</artifactId>
 			<version>${mybatis.version}</version>
 		</dependency>
+		<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-security</artifactId>
+        </dependency>
 		<!-- 引入系统监控相关依赖 -->
 		<dependency>
 			<groupId>org.springframework.boot</groupId>
@@ -71,6 +68,10 @@
 			<groupId> org.springframework.boot </groupId>
 			<artifactId> spring-boot-devtools </artifactId>
 			<optional>true</optional>
+		</dependency>
+		<dependency>
+		  <groupId>org.hibernate.validator</groupId>
+		  <artifactId>hibernate-validator</artifactId>
 		</dependency>
 		<!-- 数据库 -->
 		<dependency>
@@ -94,76 +95,14 @@
 		</dependency>
 		<!-- GENERAL UTILS begin -->
 		<dependency>
-			<groupId>org.apache.commons</groupId>
-			<artifactId>commons-lang3</artifactId>
-			<version>${commons-lang3.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>commons-io</groupId>
-			<artifactId>commons-io</artifactId>
-			<version>${commons-io.version}</version>
-		</dependency>
-		<dependency>
 			<groupId>commons-codec</groupId>
 			<artifactId>commons-codec</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>commons-beanutils</groupId>
-			<artifactId>commons-beanutils</artifactId>
-			<exclusions>
-				<exclusion>
-					<groupId>commons-logging</groupId>
-					<artifactId>commons-logging</artifactId>
-				</exclusion>
-			</exclusions>
-		</dependency>
-		<!-- javasimon -->
-		<dependency>
-			<groupId>org.javasimon</groupId>
-			<artifactId>javasimon-spring</artifactId>
-			<version>${javasimon.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.javasimon</groupId>
-			<artifactId>javasimon-jdbc4</artifactId>
-			<version>${javasimon.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.javasimon</groupId>
-			<artifactId>javasimon-console-embed</artifactId>
-			<version>${javasimon.version}</version>
-		</dependency>
-		<!-- Monitor end -->
 		<!-- google java library -->
 		<dependency>
 			<groupId>com.google.guava</groupId>
 			<artifactId>guava</artifactId>
 			<version>${guava.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-core</artifactId>
-			<version>${shiro.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-web</artifactId>
-			<version>${shiro.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-ehcache</artifactId>
-			<version>${shiro.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>org.apache.shiro</groupId>
-			<artifactId>shiro-spring</artifactId>
-			<version>${shiro.version}</version>
-		</dependency>
-		<dependency>
-			<groupId>com.github.theborakompanioni</groupId>
-			<artifactId>thymeleaf-extras-shiro</artifactId>
-			<version>${thymeleaf-extras-shiro.version}</version>
 		</dependency>
 		<dependency>
 			<groupId>org.hibernate</groupId>
@@ -180,16 +119,6 @@
 			<groupId>net.sf.ehcache</groupId>
 			<artifactId>ehcache</artifactId>
 		</dependency>
-		<dependency>
-			<groupId>javax.xml.bind</groupId>
-			<artifactId>jaxb-api</artifactId>
-			<version>2.3.0</version>
-		</dependency>
-		<dependency>
-			<groupId>org.eclipse.persistence</groupId>
-			<artifactId>eclipselink</artifactId>
-			<version>2.7.0</version>
-		</dependency>
 	</dependencies>
 
 	<build>
@@ -202,7 +131,6 @@
 			<plugin>
 				<groupId>org.flywaydb</groupId>
 				<artifactId>flyway-maven-plugin</artifactId>
-				<version>${flyway.version}</version>
 				<configuration>
 					<driver>org.h2.Driver</driver>
 					<url>jdbc:h2:file:~/.h2/springnext;AUTO_SERVER=TRUE;DB_CLOSE_DELAY=-1;</url>
