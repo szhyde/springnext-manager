@@ -14,7 +14,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 角色表
@@ -33,7 +32,6 @@ public class Role extends BaseEntity {
 	/**
 	 * 角色名,英文用于系统权限判断
 	 */
-	@NotBlank
 	private String role;
 	/**
 	 * 说明

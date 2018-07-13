@@ -14,6 +14,8 @@ package org.springnext.manager.base.controller;
 
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.RequestMapping;
 
@@ -24,6 +26,9 @@ public class MainController {
 
     @RequestMapping("/")
     public String view() {
+    	UserDetails userDetails = (UserDetails) SecurityContextHolder.getContext()
+    		    .getAuthentication()
+    		    .getPrincipal();
         return "/index";
     }
 

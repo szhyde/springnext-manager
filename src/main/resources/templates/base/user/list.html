@@ -95,11 +95,12 @@ jQuery(function($) {
 	jQuery(grid_selector).jqGrid({
 		//direction: "rtl",
 		url: 'queryList',
-        mtype: "GET",
+		datatype: 'json',
+        mytype: 'post',
 		height: 'auto',
 		colNames:[' ', 'tid','loginName','userName', 'email', 'phone','userStatus'],
 		colModel:[
-			{name:'myac',index:'', width:80, fixed:true, sortable:false, resize:false,
+			{name:'tid',index:'', width:80, fixed:true, sortable:false, resize:false,
 				formatter:'actions', 
 				formatoptions:{ 
 					keys:true,
@@ -109,14 +110,14 @@ jQuery(function($) {
 					//editformbutton:true, editOptions:{recreateForm: true, beforeShowForm:beforeEditCallback}
 				}
 			},
-			{name:'tid',index:'tid', width:60, sorttype:"int", editable: true},
-			{name:'sdate',index:'loginName',width:90, editable:true, sorttype:"date",unformat: pickDate},
-			{name:'name',index:'userName', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
-			{name:'stock',index:'email', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
-			{name:'ship',index:'phone', width:90, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
-			{name:'note',index:'userStatus', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
+			{name:'tid',index:'表ID', width:60, sorttype:"int", editable: true},
+			{name:'loginName',index:'登入帐号',width:90, editable:true, sorttype:"date",unformat: pickDate},
+			{name:'userName',index:'用户', width:150,editable: true,editoptions:{size:"20",maxlength:"30"}},
+			{name:'email',index:'邮箱', width:70, editable: true,edittype:"checkbox",editoptions: {value:"Yes:No"},unformat: aceSwitch},
+			{name:'phone',index:'手机', width:90, editable: true,edittype:"select",editoptions:{value:"FE:FedEx;IN:InTime;TN:TNT;AR:ARAMEX"}},
+			{name:'userStatus',index:'帐号状态', width:150, sortable:false,editable: true,edittype:"textarea", editoptions:{rows:"2",cols:"10"}} 
 		], 
-
+		jsonReader : {repeatitems: false},
 		viewrecords : true,
 		rowNum:10,
 		rowList:[10,20,30],

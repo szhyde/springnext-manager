@@ -5,7 +5,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.validator.constraints.NotBlank;
 
 /**
  * 资源
@@ -23,12 +22,10 @@ public class Resources extends BaseEntity {
 	/**
 	 * 资源地址
 	 */
-	@NotBlank
 	private String url;
 	/**
 	 * 权限要求
 	 */
-	@NotBlank
 	private String permissions;
 	/**
 	 * 说明

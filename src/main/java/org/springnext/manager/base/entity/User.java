@@ -7,8 +7,6 @@ import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
-import org.hibernate.validator.constraints.Email;
-import org.hibernate.validator.constraints.NotBlank;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
 
@@ -30,7 +28,6 @@ public class User extends BaseEntity {
 	/**
 	 * 登录名
 	 */
-	@NotBlank
 	private String loginName;
 	/**
 	 * 登录密码
@@ -38,24 +35,16 @@ public class User extends BaseEntity {
 	@JsonIgnore
 	private String loginPassword;
 	/**
-	 * 加密盐
-	 */
-	@JsonIgnore
-	private String passwordSalt;
-	/**
 	 * 用户名
 	 */
-	@NotBlank
 	private String userName;
 	/**
 	 * 邮箱
 	 */
-	@Email
 	private String email;
 	/**
 	 * 用户状态
 	 */
-	@NotBlank
 	private String userStatus;
 	/**
 	 * 所在用户
@@ -84,14 +73,6 @@ public class User extends BaseEntity {
 
 	public void setLoginPassword(String loginPassword) {
 		this.loginPassword = loginPassword;
-	}
-
-	public String getPasswordSalt() {
-		return passwordSalt;
-	}
-
-	public void setPasswordSalt(String passwordSalt) {
-		this.passwordSalt = passwordSalt;
 	}
 
 	public String getUserName() {

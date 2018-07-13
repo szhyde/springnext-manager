@@ -2,26 +2,22 @@ package org.springnext.manager.base.service;
 
 import java.util.Map;
 
-import org.apache.commons.lang3.StringUtils;
-import org.apache.shiro.SecurityUtils;
 import org.hibernate.Hibernate;
 import org.hibernate.service.spi.ServiceException;
-import org.javasimon.aop.Monitored;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
+import org.springframework.beans.BeanUtils;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
 import org.springframework.data.domain.PageRequest;
 import org.springframework.data.jpa.domain.Specification;
+import org.springframework.security.core.context.SecurityContextHolder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-import org.springnext.manager.base.dto.ShiroUser;
 import org.springnext.manager.base.entity.User;
 import org.springnext.manager.base.persistence.DynamicSpecifications;
 import org.springnext.manager.base.persistence.SearchFilter;
 import org.springnext.manager.base.repository.jpa.UserDao;
-import org.springnext.manager.base.utils.Digests;
-import org.springnext.manager.base.utils.Encodes;
 
 import com.google.common.collect.Maps;
 
@@ -32,12 +28,7 @@ import com.google.common.collect.Maps;
  */
 // Spring Service Bean的标识.
 @Service
-@Transactional
-@Monitored
 public class UserService {
-	public static final String HASH_ALGORITHM = "SHA-1";
-	public static final int HASH_INTERATIONS = 1024;
-	private static final int SALT_SIZE = 8;
 
 	private static Logger logger = LoggerFactory
 			.getLogger(UserService.class);
@@ -48,11 +39,14 @@ public class UserService {
 	@Autowired
 	private UserDao userDao;
 	
+	@Autowired
+	private PasswordEncoder passwordEncoder;
+	
 	/**
 	 * 取用户
 	 */
 	public User findUserByID(Long userID) {
-		User user = userDao.findOne(userID);
+		User user = userDao.getOne(userID);
 		//好习惯，提前初始化前端需要的懒加载项
 		Hibernate.initialize(user.getGroup());
 		return user;
@@ -64,7 +58,7 @@ public class UserService {
 	public User findUserByLoginName(String loginName) {
 		// 业务日志演示
 		if (businessLogger != null) {
-			businessLogger.log("USER", "登陆", loginName, null);
+			businessLogger.log("USER", "按登入帐号查找用户信息", loginName, null);
 		}
 		return userDao.findByLoginName(loginName);
 	}
@@ -81,7 +75,10 @@ public class UserService {
 		//拼接查询条件
 		Specification<User> spec = DynamicSpecifications.bySearchFilter(
 				filters.values(), User.class);
+		
+		logger.info(userDao.findAll(spec).size()+"");
 		Page<User> userListPage = userDao.findAll(spec, pageRequest);
+		logger.info(userListPage.getContent().size()+"");
 		return userListPage;
 	}
 
@@ -89,21 +86,9 @@ public class UserService {
 	 * 取出Shiro中的当前用户LoginName.
 	 */
 	private String getCurrentLoginName() {
-		ShiroUser user = (ShiroUser) SecurityUtils.getSubject().getPrincipal();
-		return user.loginName;
+		return SecurityContextHolder.getContext().getAuthentication().getName();
 	}
 
-	/**
-	 * 设定安全的密码，生成随机的salt并经过1024次 sha-1 hash
-	 */
-	private void entryptPassword(User user) {
-		byte[] salt = Digests.generateSalt(SALT_SIZE);
-		user.setPasswordSalt(Encodes.encodeHex(salt));
-
-		byte[] hashPassword = Digests.sha1(user.getLoginPassword().getBytes(),
-				salt, HASH_INTERATIONS);
-		user.setLoginPassword(Encodes.encodeHex(hashPassword));
-	}
 
 	/**
 	 * 
@@ -117,9 +102,9 @@ public class UserService {
 			throw new ServiceException("不能修改超级管理员用户");
 		}
 		
-		User dbUser = userDao.findOne(user.getTid());
+		User dbUser = userDao.getOne(user.getTid());
 		try {
-			org.springframework.beans.BeanUtils.copyProperties(user, dbUser, "loginPassword","passwordSalt","isDelete");
+			BeanUtils.copyProperties(user, dbUser, "loginPassword","passwordSalt","isDelete");
 		} catch (Exception e) {
 			logger.error("操作员{}修改用户数据{}出错", getCurrentLoginName(),user.getLoginName());
 			throw new ServiceException("用户更新失败");
@@ -139,9 +124,7 @@ public class UserService {
 	public void createUser(User user) {
 		user.setLoginPassword("123456");
 		user.setIsDelete(false);
-		// 设定安全的密码，生成随机的salt并经过1024次 sha-1 hash
-		entryptPassword(user);
-		
+		user.setLoginPassword(passwordEncoder.encode("123456"));
 		userDao.save(user);
 
 		// 业务日志演示
@@ -158,14 +141,8 @@ public class UserService {
 	public void changePassword(String oldPassword,String newPassword) {
 		String loginName = getCurrentLoginName();
 		User user = findUserByLoginName(loginName);
-		
-		oldPassword = Encodes.encodeHex(Digests.sha1(oldPassword.getBytes(), Encodes.decodeHex(user.getPasswordSalt()),HASH_INTERATIONS));
-		
-		if(StringUtils.equals(oldPassword, user.getLoginPassword())){
-			byte[] salt = Digests.generateSalt(SALT_SIZE);
-			user.setPasswordSalt(Encodes.encodeHex(salt));
-			byte[] hashPassword = Digests.sha1(newPassword.getBytes(),salt, HASH_INTERATIONS);
-			user.setLoginPassword(Encodes.encodeHex(hashPassword));
+		if(passwordEncoder.matches(oldPassword, user.getLoginPassword())){
+			user.setLoginPassword(passwordEncoder.encode(newPassword));
 			userDao.save(user);
 		}
 	}

@@ -23,11 +23,6 @@ public class UserDTO extends BaseDTO implements Serializable {
 	@JsonIgnore
 	private String loginPassword;
 	/**
-	 * 加密盐
-	 */
-	@JsonIgnore
-	private String passwordSalt;
-	/**
 	 * 用户名
 	 */
 	private String userName;
@@ -72,14 +67,6 @@ public class UserDTO extends BaseDTO implements Serializable {
 
 	public void setLoginPassword(String loginPassword) {
 		this.loginPassword = loginPassword;
-	}
-
-	public String getPasswordSalt() {
-		return passwordSalt;
-	}
-
-	public void setPasswordSalt(String passwordSalt) {
-		this.passwordSalt = passwordSalt;
 	}
 
 	public String getUserName() {

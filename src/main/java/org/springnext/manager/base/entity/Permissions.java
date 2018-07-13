@@ -13,7 +13,6 @@ import org.hibernate.annotations.Cache;
 import org.hibernate.annotations.CacheConcurrencyStrategy;
 import org.hibernate.annotations.Fetch;
 import org.hibernate.annotations.FetchMode;
-import org.hibernate.validator.constraints.NotBlank;
 /**
  * 权限表
  * @author HyDe
@@ -31,7 +30,6 @@ public class Permissions extends BaseEntity {
 	/**
 	 * 权限，英文，用于系统鉴权判断
 	 */
-	@NotBlank
 	private String permissions;
 	/**
 	 * 权限说明

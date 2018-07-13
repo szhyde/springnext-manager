@@ -72,6 +72,6 @@ public class JqGridRequestVO implements Serializable {
 		if(StringUtils.isBlank(sidx)) {
 			sidx = "tid";
 		}
-		return new PageRequest(page,rows,new Sort(Direction.fromString(sord),sidx));
+		return new PageRequest(page-1,rows,new Sort(Direction.fromString(sord),sidx));
 	}
 }
