@@ -14,11 +14,11 @@ public class UserDTO extends BaseDTO implements Serializable {
 	 */
 	private static final long serialVersionUID = 1L;
 	/**
-	 * 登录名
+	 * 登入帐号
 	 */
 	private String loginName;
 	/**
-	 * 登录密码
+	 * 登入密码
 	 */
 	@JsonIgnore
 	private String loginPassword;

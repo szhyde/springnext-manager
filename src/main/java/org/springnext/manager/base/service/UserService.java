@@ -69,14 +69,14 @@ public class UserService {
 	public Page<User> searchUserListPage(Map<String, Object> searchParams,PageRequest pageRequest) {
 		logger.info("用户{}再在检索用户数据.", getCurrentLoginName());
 		//增加搜索项，只查询未删除的用户
-		searchParams.put("EQ_isDelete", Boolean.FALSE);
+		//searchParams.put("EQ_isDelete", Boolean.FALSE);
 		//提取搜索条件，把key值按_切分查询字段与条件
 		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
 		//拼接查询条件
 		Specification<User> spec = DynamicSpecifications.bySearchFilter(
 				filters.values(), User.class);
 		
-		logger.info(userDao.findAll(spec).size()+"");
+		
 		Page<User> userListPage = userDao.findAll(spec, pageRequest);
 		logger.info(userListPage.getContent().size()+"");
 		return userListPage;

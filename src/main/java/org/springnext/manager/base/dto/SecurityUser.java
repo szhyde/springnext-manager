@@ -5,9 +5,7 @@ import java.util.Collection;
 
 import org.springframework.beans.BeanUtils;
 import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.authority.SimpleGrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
-import org.springnext.manager.base.entity.Role;
 import org.springnext.manager.base.entity.User;
 
 public class SecurityUser extends User implements UserDetails {
@@ -25,12 +23,12 @@ public class SecurityUser extends User implements UserDetails {
 
 		Collection<GrantedAuthority> authorities = new ArrayList<GrantedAuthority>();
 
-		Role userRole = this.getRole();
-
-		if (userRole != null) {
-			SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.getRole());
-			authorities.add(authority);
-		}
+//		Role userRole = this.getRole();
+//
+//		if (userRole != null) {
+//			SimpleGrantedAuthority authority = new SimpleGrantedAuthority(userRole.getRole());
+//			authorities.add(authority);
+//		}
 
 		return authorities;
 

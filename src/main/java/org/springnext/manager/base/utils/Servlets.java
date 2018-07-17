@@ -2,10 +2,13 @@ package org.springnext.manager.base.utils;
 
 import java.util.Enumeration;
 import java.util.Iterator;
+import java.util.List;
 import java.util.Map;
 import java.util.Map.Entry;
 import java.util.StringTokenizer;
 import java.util.TreeMap;
+import java.util.regex.Matcher;
+import java.util.regex.Pattern;
 
 import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
@@ -15,6 +18,8 @@ import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.Validate;
 
 import com.google.common.base.Charsets;
+import com.google.common.collect.Lists;
+import com.google.common.collect.Maps;
 import com.google.common.net.HttpHeaders;
 
 /**
@@ -191,6 +196,72 @@ public class Servlets {
 				} else {
 					params.put(unprefixed, values[0]);
 				}
+			}
+		}
+		return params;
+	}
+	
+	/**
+	 * 取得带相同前缀的Request Parameters, copy from spring WebUtils.
+	 * 
+	 * 返回的结果的Parameter名已去除前缀.
+	 */
+	@SuppressWarnings("unchecked")
+	public static List<Map<String, Object>> getParametersListStartingWith(
+			ServletRequest request, String prefix) {
+		Validate.notNull(request, "Request must not be null");
+		Enumeration<String> paramNames = request.getParameterNames();
+		List<Map<String, Object>> params = Lists.newArrayList();
+		String pre = prefix;
+		Pattern indexPattern = Pattern.compile("\\[[0-9]+]");
+		Pattern keyPattern = Pattern.compile("\\[[A-Za-z]+]");
+		Matcher indexMatcher;
+		Matcher keyMatcher;
+		if (pre == null) {
+			pre = "";
+		}
+		while ((paramNames != null) && paramNames.hasMoreElements()) {
+			String paramName = paramNames.nextElement();
+			if ("".equals(pre) || paramName.startsWith(pre)) {
+				String unprefixed = paramName.substring(pre.length());
+				String values = request.getParameter(paramName);
+					indexMatcher = indexPattern.matcher(unprefixed);
+					if(indexMatcher.find()){
+						String indexStr = indexMatcher.group();
+						Integer index = Integer.valueOf(indexStr.substring(1, indexStr.length()-1));
+						Map<String, Object> map;
+						if(params.size()<=index){
+							map = Maps.newHashMap();
+						}else{
+							map = params.get(index);
+						}
+						keyMatcher=keyPattern.matcher(unprefixed);  
+						keyMatcher.find();
+						String mapKey = keyMatcher.group();
+						mapKey = mapKey.substring(1, mapKey.length()-1);
+						if("search".equals(mapKey)){
+							keyMatcher.find();
+							String mapKey2 = keyMatcher.group();
+							mapKey2 = mapKey2.substring(1, mapKey2.length()-1);
+							Object objTemp = map.get(mapKey);
+							Map<String,String> searchMap;
+							if(objTemp instanceof Map){
+								searchMap = (Map<String,String>)objTemp;
+							}else{
+								searchMap = Maps.newHashMap();
+							}
+							searchMap.put(mapKey2, values);
+							map.put(mapKey, searchMap);
+						}else{
+							map.put(mapKey, values);
+						}
+						if(params.size()<=index){
+							params.add(map);
+						}else{
+							params.set(index,map);
+						}
+						
+					}
 			}
 		}
 		return params;

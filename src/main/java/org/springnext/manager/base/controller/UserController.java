@@ -15,8 +15,8 @@ import org.springnext.manager.base.dto.UserDTO;
 import org.springnext.manager.base.entity.User;
 import org.springnext.manager.base.service.UserService;
 import org.springnext.manager.base.utils.Servlets;
-import org.springnext.manager.base.vo.JqGridRequestVO;
-import org.springnext.manager.base.vo.JqGridResponseVO;
+import org.springnext.manager.base.vo.LayTableRequestVO;
+import org.springnext.manager.base.vo.LayTableResponseVO;
 
 /**
  * 用户控制器
@@ -55,13 +55,11 @@ public class UserController {
 	 * @return
 	 */
 	@RequestMapping(value = "queryList")
-	public @ResponseBody JqGridResponseVO<UserDTO> queryList(JqGridRequestVO pages, Model model,ServletRequest request,BindingResult result) {
+	public @ResponseBody LayTableResponseVO<UserDTO> queryList(LayTableRequestVO pages, Model model,ServletRequest request,BindingResult result) {
 		Map<String, Object> searchParams = Servlets.getParametersStartingWith(request, "search_");
 		Page<User> userPage = userService.searchUserListPage(searchParams,pages.toPageRequest());
-		JqGridResponseVO<UserDTO> jqGridResponseVO = new JqGridResponseVO<UserDTO>();
-		jqGridResponseVO.setPage(pages.getPage());
-		jqGridResponseVO.setRecords(userPage.getTotalElements());
-		jqGridResponseVO.setTotal(userPage.getTotalElements()/pages.getRows()+userPage.getTotalElements()%pages.getRows());
+		LayTableResponseVO<UserDTO> jqGridResponseVO = new LayTableResponseVO<UserDTO>();
+		jqGridResponseVO.setCount(userPage.getTotalElements());
 		jqGridResponseVO.addRows(userPage.getContent(), UserDTO.class);
 		return jqGridResponseVO;
 	}

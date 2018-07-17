@@ -13,6 +13,7 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
 import org.springnext.manager.base.service.CustomUserDetailsService;
 
 @Configuration
@@ -36,21 +37,29 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        //允许所有用户访问"/"和"/home"
+        
         http.authorizeRequests()
-                .antMatchers("/", "/home").permitAll()
+      //允许所有用户访问"/"和"/home"
+//                .antMatchers("/", "/home").permitAll()
                 //其他地址的访问均需验证权限
                 .anyRequest().authenticated()
                 .and()
                 .formLogin()
                 //指定登录页是"/login"
                 .loginPage("/login")
-                .defaultSuccessUrl("/")//登录成功后默认跳转到"/hello"
+                .defaultSuccessUrl("/")//设置登录成功后默认跳转
                 .permitAll()
                 .and()
+                .headers().frameOptions().disable()
+                .and()
                 .logout()
-                .logoutSuccessUrl("/login")//退出登录后的默认url是"/home"
+                .logoutUrl("/logout")
+                //设置CSRF功能跳过logout，可以让登出用get方式访问
+                .logoutRequestMatcher(new AntPathRequestMatcher("/logout", "GET")) 
+                .logoutSuccessUrl("/login")//设置退出登录后的默认url是
                 .permitAll();
+        
+//        http.headers().frameOptions()
 
     }
 
