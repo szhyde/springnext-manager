@@ -1,5 +1,4 @@
-package org.springnext.manager.base.controller;
-//package org.springnext.manager.controller;
+//package org.springnext.manager.base.controller;
 //
 //import java.util.Map;
 //

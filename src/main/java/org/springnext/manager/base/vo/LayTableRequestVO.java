@@ -7,6 +7,11 @@ import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.domain.Sort.Direction;
 
+/**
+ * LayUI的Table请求参数
+ * @author hyde
+ *
+ */
 public class LayTableRequestVO implements Serializable {
 	/**
 	 * 

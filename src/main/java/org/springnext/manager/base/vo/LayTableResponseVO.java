@@ -8,6 +8,12 @@ import org.dozer.Mapper;
 
 import com.google.common.collect.Lists;
 
+/**
+ * LayUI的Table菜单响应json
+ * @author hyde
+ *
+ * @param <T>
+ */
 public class LayTableResponseVO<T> implements Serializable {
 	/**
 	 * 
