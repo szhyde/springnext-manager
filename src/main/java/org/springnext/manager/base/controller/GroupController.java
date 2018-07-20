@@ -6,10 +6,12 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
+import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
+import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springnext.manager.base.entity.Group;
 import org.springnext.manager.base.service.GroupService;
@@ -63,15 +65,28 @@ public class GroupController {
     }
 	
 	/**
+	 * 增加用户跳转
+	 * @param model
+	 * @return
+	 */
+	@RequestMapping("/add")
+	public String add(@RequestParam("groupId") Long tid, Model model) {
+		if(tid!=null) {
+			model.addAttribute("group", groupService.findOne(tid));
+		}
+		return "base/group/add";
+	}
+	
+	/**
 	 * 保存组织结构
 	 * @param group
 	 * @param isNew
 	 * @param result
 	 * @return
 	 */
-	@RequestMapping(value = "save", method = RequestMethod.POST)
+	@RequestMapping(value = "insert", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxMessage save(@Valid Group group,boolean isNew,BindingResult result) {
+	public AjaxMessage insert(@Valid Group group,boolean isNew,BindingResult result) {
 		if(result.hasErrors()){
 			return AjaxMessage.createFailureMsg();
 		}

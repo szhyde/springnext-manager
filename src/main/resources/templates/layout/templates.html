@@ -12,6 +12,8 @@
 	    <meta http-equiv="Cache-Control" content="no-siteapp" />
 	    <link rel="stylesheet" th:href="@{/assets/css/font.css}">
 		<link rel="stylesheet" th:href="@{/assets/css/xadmin.css}">
+		<meta name="_csrf" th:content="${_csrf.token}"/>
+		<meta name="_csrf_header" th:content="${_csrf.headerName}"/>
 	   
 	    <!-- 让IE8/9支持媒体查询，从而兼容栅格 -->
 	    <!--[if lt IE 9]>
