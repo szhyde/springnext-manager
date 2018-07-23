@@ -41,7 +41,6 @@
           </div>
       </form>
     </div>
-    <script type="text/javascript" th:src="@{/assets/lib/jquery.min.js}"></script>
 	<script th:src="@{/assets/lib/layui/layui.all.js}" charset="utf-8"></script>
 	<script type="text/javascript" th:src="@{/assets/js/xadmin.js}"></script>
 	<script>
@@ -50,12 +49,6 @@
         
           //监听提交
           form.on('submit(add)', function(data){
-            console.log(data);
-            var token = $("meta[name='_csrf']").attr("content");
-            var header = $("meta[name='_csrf_header']").attr("content");
-            $(document).ajaxSend(function(e, xhr, options) {
-                xhr.setRequestHeader(header, token);
-            });
             $.ajax({
     			type : "post",
     			url : "./insert",

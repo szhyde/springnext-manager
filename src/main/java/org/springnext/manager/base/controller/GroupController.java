@@ -51,14 +51,16 @@ public class GroupController {
 		if(groupList!=null) {
 			LayTreeVO tempLayTreeVO;
 			for (Group group : groupList) {
-				tempLayTreeVO = new LayTreeVO();
-				tempLayTreeVO.setId(String.valueOf(group.getTid()));
-				if(group.getPid()!=null) {
-					tempLayTreeVO.setParentID(String.valueOf(group.getPid()));
+				if(!group.getIsDelete()) {
+					tempLayTreeVO = new LayTreeVO();
+					tempLayTreeVO.setId(String.valueOf(group.getTid()));
+					if(group.getPid()!=null) {
+						tempLayTreeVO.setParentID(String.valueOf(group.getPid()));
+					}
+					tempLayTreeVO.setName(group.getGroupName());
+					tempLayTreeVO.setChildren(getChildren(group.getChildGroup()));
+					list.add(tempLayTreeVO);
 				}
-				tempLayTreeVO.setName(group.getGroupName());
-				tempLayTreeVO.setChildren(getChildren(group.getChildGroup()));
-				list.add(tempLayTreeVO);
 			}
 		}
     	return list;

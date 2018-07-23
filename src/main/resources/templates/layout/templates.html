@@ -20,15 +20,25 @@
 	      <script src="https://cdn.staticfile.org/html5shiv/r29/html5.min.js"></script>
 	      <script src="https://cdn.staticfile.org/respond.js/1.4.2/respond.min.js"></script>
 	    <![endif]-->
+	    <script type="text/javascript" th:src="@{/assets/lib/jquery.min.js}"></script>
+	    <script type="text/javascript">
+        $(function(){
+        	var token = $("meta[name='_csrf']").attr("content");
+            var header = $("meta[name='_csrf_header']").attr("content");
+            $(document).ajaxSend(function(e, xhr, options) {
+                xhr.setRequestHeader(header, token);
+            });
+    	})
+	    </script>
 	</head>
 
 	<body class="no-skin">
-		<div class="x-nav"  th:fragment="nav">
+		<div class="x-nav"  th:fragment="nav(category,column)">
 	      <span class="layui-breadcrumb">
-	        <a href="">首页</a>
-	        <a href="">演示</a>
+	        <a>首页</a>
+	        <a th:text="${category}"></a>
 	        <a>
-	          <cite>导航元素</cite></a>
+	          <cite th:text="${column}">导航元素</cite></a>
 	      </span>
 	      <a class="layui-btn layui-btn-small" style="line-height:1.6em;margin-top:3px;float:right" href="javascript:location.replace(location.href);" title="刷新">
 	        <i class="layui-icon" style="line-height:30px">ဂ</i></a>

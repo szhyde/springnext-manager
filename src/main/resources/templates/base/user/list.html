@@ -5,7 +5,7 @@
 	</head>
 
   <body class="layui-anim layui-anim-up">
-    <div th:replace="layout/templates :: nav"></div>
+    <div th:replace="layout/templates :: nav('系统设置','用户管理')"></div>
     
     
     <div class="x-body">
@@ -20,9 +20,10 @@
       </div>
       <xblock>
       	<button class="layui-btn" onclick="showAddGroup()"><i class="layui-icon"></i></button>
-      	<button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i></button>
-        <button class="layui-btn x-right" onclick="x_admin_show('增加用户','./add',600,400)"><i class="layui-icon"></i>增加用户</button>
+      	<button class="layui-btn layui-btn-danger" onclick="delGroup()"><i class="layui-icon"></i></button>
+        
         <button class="layui-btn layui-btn-danger x-right" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
+        <button class="layui-btn x-right" onclick="x_admin_show('增加用户','./add',600,400)"><i class="layui-icon"></i>增加用户</button>
         
         <span class="x-right" style="line-height:40px;"></span>
       </xblock>
@@ -56,7 +57,6 @@
 	    
 	  </div>
     </div>
-    <script type="text/javascript" th:src="@{/assets/lib/jquery.min.js}"></script>
 	<script th:src="@{/assets/lib/layui/layui.all.js}" charset="utf-8"></script>
 	<script type="text/javascript" th:src="@{/assets/js/xadmin.js}"></script>
 	<script type="text/javascript">
@@ -67,6 +67,35 @@
 	function showAddGroup(){
 		x_admin_show('增加分组',('../group/add?groupId='+groupId),600,260,null,renderTree)
 	}
+	function delGroup () {
+		if(groupId!=""){
+			layer.confirm('确认要删除【'+groupRow.name+'】吗？',function(index){
+				$.ajax({
+					type : "post",
+					url : "../group/delete/"+groupId,
+					async: false,
+					success : function(json){
+						if(json.success){
+							layer.msg('删除成功', {icon: 1});
+							renderTree();
+						}else{
+							layer.msg('删除失败', {icon: 2});
+						}
+						
+					},
+					error : function(){
+						layer.msg('服务器通信异常，删除失败', {icon: 2});
+					}
+				});
+	            
+	            
+	        });
+		}else{
+			layer.msg('请选择要删除的用户组', {icon: 2});
+		}
+        
+      }
+	
 	function delAll () {
 
         var data = layui.table.checkStatus('main_table').data.length;
