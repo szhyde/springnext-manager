@@ -30,19 +30,19 @@ public class ResourcesService {
 	/**
 	 * 按页面传来的查询条件查询资源.
 	 */
-	public Page<Resources> searchResourcesListPage(Map<String, Object> searchParams,
-			int pageIndex, int pageSize, String sortField, String sortType) {
-		
-		searchParams.put("EQ_isDelete", Boolean.FALSE);
-		
-		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-		Specification<Resources> spec = DynamicSpecifications.bySearchFilter(
-				filters.values(), Resources.class);
-		Page<Resources> page = resourcesDao.findAll(spec, new PageRequest(
-				pageIndex, pageSize, new Sort(Direction.fromString(sortType),
-						sortField)));
-		return page;
-	}
+//	public Page<Resources> searchResourcesListPage(Map<String, Object> searchParams,
+//			int pageIndex, int pageSize, String sortField, String sortType) {
+//		
+//		searchParams.put("EQ_isDelete", Boolean.FALSE);
+//		
+//		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+//		Specification<Resources> spec = DynamicSpecifications.bySearchFilter(
+//				filters.values(), Resources.class);
+//		Page<Resources> page = resourcesDao.findAll(spec, new PageRequest(
+//				pageIndex, pageSize, new Sort(Direction.fromString(sortType),
+//						sortField)));
+//		return page;
+//	}
 
 	/**
 	 * 保存资源

@@ -33,19 +33,19 @@ public class RoleService {
 	/**
 	 * 按页面传来的查询条件查询角色.
 	 */
-	public Page<Role> searchRoleListPage(Map<String, Object> searchParams,
-			int pageIndex, int pageSize, String sortField, String sortType) {
-		
-		searchParams.put("EQ_isDelete", Boolean.FALSE);
-		
-		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-		Specification<Role> spec = DynamicSpecifications.bySearchFilter(
-				filters.values(), Role.class);
-		Page<Role> page = roleDao.findAll(spec, new PageRequest(
-				pageIndex, pageSize, new Sort(Direction.fromString(sortType),
-						sortField)));
-		return page;
-	}
+//	public Page<Role> searchRoleListPage(Map<String, Object> searchParams,
+//			int pageIndex, int pageSize, String sortField, String sortType) {
+//		
+//		searchParams.put("EQ_isDelete", Boolean.FALSE);
+//		
+//		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+//		Specification<Role> spec = DynamicSpecifications.bySearchFilter(
+//				filters.values(), Role.class);
+//		Page<Role> page = roleDao.findAll(spec, new PageRequest(
+//				pageIndex, pageSize, new Sort(Direction.fromString(sortType),
+//						sortField)));
+//		return page;
+//	}
 	
 	/**
 	 * 按用户ID查询角色.

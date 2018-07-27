@@ -30,19 +30,19 @@ public class PermissionsService {
 	/**
 	 * 按页面传来的查询条件查询用户.
 	 */
-	public Page<Permissions> searchPermissionsListPage(Map<String, Object> searchParams,
-			int pageIndex, int pageSize, String sortField, String sortType) {
-		
-		searchParams.put("EQ_isDelete", Boolean.FALSE);
-		
-		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
-		Specification<Permissions> spec = DynamicSpecifications.bySearchFilter(
-				filters.values(), Permissions.class);
-		Page<Permissions> page = permissionsDao.findAll(spec, new PageRequest(
-				pageIndex, pageSize, new Sort(Direction.fromString(sortType),
-						sortField)));
-		return page;
-	}
+//	public Page<Permissions> searchPermissionsListPage(Map<String, Object> searchParams,
+//			int pageIndex, int pageSize, String sortField, String sortType) {
+//		
+//		searchParams.put("EQ_isDelete", Boolean.FALSE);
+//		
+//		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+//		Specification<Permissions> spec = DynamicSpecifications.bySearchFilter(
+//				filters.values(), Permissions.class);
+//		Page<Permissions> page = permissionsDao.findAll(spec, new PageRequest(
+//				pageIndex, pageSize, new Sort(Direction.fromString(sortType),
+//						sortField)));
+//		return page;
+//	}
 
 	/**
 	 * 保存

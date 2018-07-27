@@ -22,7 +22,7 @@ import com.google.common.collect.Lists;
  */
 public class DynamicSpecifications {
 
-	public static <T> Specification<T> bySearchFilter(final Collection<SearchFilter> filters, final Class<T> entityClazz) {
+	public static <T> Specification<T> bySearchFilter(final Collection<SearchFilter> filters) {
 		return new Specification<T>() {
 			@SuppressWarnings({ "rawtypes", "unchecked" })
 			@Override

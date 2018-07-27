@@ -74,7 +74,7 @@ public class UserService {
 		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
 		//拼接查询条件
 		Specification<User> spec = DynamicSpecifications.bySearchFilter(
-				filters.values(), User.class);
+				filters.values());
 		
 		
 		Page<User> userListPage = userDao.findAll(spec, pageRequest);

@@ -7,13 +7,18 @@ package org.springnext.manager.base.service;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.Map;
 
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.data.domain.Pageable;
 import org.springframework.data.domain.Sort;
 import org.springframework.data.jpa.domain.Specification;
 import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
 import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springnext.manager.base.entity.BaseEntity;
+import org.springnext.manager.base.persistence.DynamicSpecifications;
+import org.springnext.manager.base.persistence.SearchFilter;
 
 
 /**
@@ -24,7 +29,7 @@ import org.springframework.data.repository.PagingAndSortingRepository;
  * @see BaseService
  * @since
  */
-public abstract class BaseService<T, ID extends Serializable>
+public abstract class BaseService<T extends BaseEntity, ID extends Serializable>
 {
     protected abstract PagingAndSortingRepository<T, ID> initPagingAndSortingRepository();
 
@@ -63,38 +68,29 @@ public abstract class BaseService<T, ID extends Serializable>
     }
 
     /**
-     * Saves a given entity. Use the returned instance for further operations as the save operation
-     * might have changed the entity instance completely.
-     * 
+     * 保存
      * @param entity
-     * @return the saved entity
+     * @return
      */
-    public <S extends T> S save(S entity)
+    public T save(T entity)
     {
         return getPagingAndSortingRepository().save(entity);
     }
 
     /**
-     * Saves all given entities.
-     * 
+     * 批量保存
      * @param entities
-     * @return the saved entities
-     * @throws IllegalArgumentException
-     *             in case the given entity is (@literal null}.
+     * @return
      */
-    public <S extends T> Iterable<S> save(Iterable<S> entities)
+    public Iterable<T> save(Iterable<T> entities)
     {
         return getPagingAndSortingRepository().saveAll(entities);
     }
 
     /**
-     * Retrieves an entity by its id.
-     * 
+     * 按ID查找
      * @param id
-     *            must not be {@literal null}.
-     * @return the entity with the given id or {@literal null} if none found
-     * @throws IllegalArgumentException
-     *             if {@code id} is {@literal null}
+     * @return
      */
     public T findOne(ID id)
     {
@@ -102,13 +98,9 @@ public abstract class BaseService<T, ID extends Serializable>
     }
 
     /**
-     * Returns whether an entity with the given id exists.
-     * 
+     * 按ID确定数据是否存在
      * @param id
-     *            must not be {@literal null}.
-     * @return true if an entity with the given id exists, {@literal false} otherwise
-     * @throws IllegalArgumentException
-     *             if {@code id} is {@literal null}
+     * @return
      */
     public boolean exists(ID id)
     {
@@ -116,9 +108,8 @@ public abstract class BaseService<T, ID extends Serializable>
     }
 
     /**
-     * Returns all instances of the type.
-     * 
-     * @return all entities
+     * 取所有表数据
+     * @return
      */
     public Iterable<T> findAll()
     {
@@ -126,8 +117,7 @@ public abstract class BaseService<T, ID extends Serializable>
     }
 
     /**
-     * Returns all instances of the type with the given IDs.
-     * 
+     * 按ID批量查找
      * @param ids
      * @return
      */
@@ -137,9 +127,8 @@ public abstract class BaseService<T, ID extends Serializable>
     }
 
     /**
-     * Returns the number of entities available.
-     * 
-     * @return the number of entities
+     * 统计数据库里的表行数
+     * @return
      */
     public long count()
     {
@@ -147,47 +136,39 @@ public abstract class BaseService<T, ID extends Serializable>
     }
 
     /**
-     * Deletes the entity with the given id.
-     * 
+     * 框架的逻辑删除
      * @param id
-     *            must not be {@literal null}.
-     * @throws IllegalArgumentException
-     *             in case the given {@code id} is {@literal null}
      */
-    public void delete(ID id)
+    @SuppressWarnings("unchecked")
+	public void deleteByLogic(ID id)
     {
-        getPagingAndSortingRepository().deleteById(id);
+    	BaseEntity entity = findOne(id);
+    	entity.setIsDelete(true);
+        save((T)entity);
+    }
+    
+    /**
+     * 物理删除
+     * @param id
+     */
+	public void delete(ID id)
+    {
+    	getPagingAndSortingRepository().deleteById(id);
     }
 
-    /**
-     * Deletes a given entity.
-     * 
-     * @param entity
-     * @throws IllegalArgumentException
-     *             in case the given entity is (@literal null}.
-     */
-    public void delete(T entity)
-    {
-        getPagingAndSortingRepository().delete(entity);
-    }
-
-    /**
-     * Deletes the given entities.
-     * 
-     * @param entities
-     * @throws IllegalArgumentException
-     *             in case the given {@link Iterable} is (@literal null}.
-     */
+	/**
+	 * 批量物理删除
+	 * @param entities
+	 */
     public void delete(Iterable<? extends T> entities)
     {
         getPagingAndSortingRepository().deleteAll(entities);
     }
 
     /**
-     * Returns all entities sorted by the given options.
-     * 
+     * 带排序的取全表数据
      * @param sort
-     * @return all entities sorted by the given options
+     * @return
      */
     public Iterable<T> findAll(Sort sort)
     {
@@ -195,11 +176,9 @@ public abstract class BaseService<T, ID extends Serializable>
     }
 
     /**
-     * Returns a {@link Page} of entities meeting the paging restriction provided in the
-     * {@code Pageable} object.
-     * 
+     * 带分页的取全表数据
      * @param pageable
-     * @return a page of entities
+     * @return
      */
     public Page<T> findAll(Pageable pageable)
     {
@@ -207,8 +186,7 @@ public abstract class BaseService<T, ID extends Serializable>
     }
 
     /**
-     * Returns a single entity matching the given {@link Specification}.
-     * 
+     * 按查询条件取单条数据
      * @param spec
      * @return
      */
@@ -218,8 +196,7 @@ public abstract class BaseService<T, ID extends Serializable>
     }
 
     /**
-     * Returns all entities matching the given {@link Specification}.
-     * 
+     * 按查询条件取全表数据
      * @param spec
      * @return
      */
@@ -229,8 +206,7 @@ public abstract class BaseService<T, ID extends Serializable>
     }
 
     /**
-     * Returns a {@link Page} of entities matching the given {@link Specification}.
-     * 
+     * 按查询条件分页取出表数据
      * @param spec
      * @param pageable
      * @return
@@ -241,8 +217,7 @@ public abstract class BaseService<T, ID extends Serializable>
     }
 
     /**
-     * Returns all entities matching the given {@link Specification} and {@link Sort}.
-     * 
+     * 按查询条件排序后取数据有数据
      * @param spec
      * @param sort
      * @return
@@ -253,14 +228,26 @@ public abstract class BaseService<T, ID extends Serializable>
     }
 
     /**
-     * Returns the number of instances that the given {@link Specification} will return.
-     * 
+     * 按查询条件统计代码面页数
      * @param spec
-     *            the {@link Specification} to count instances for
-     * @return the number of instances
+     * @return
      */
     public long count(Specification<T> spec)
     {
         return getJpaSpecificationExecutor().count(spec);
     }
+    
+    /**
+	 * 按页面传来的查询条件查询.
+	 */
+	public Page<T> searchListPage(Map<String, Object> searchParams,PageRequest pageRequest) {
+		//增加搜索项，只查询未删除的用户
+		//searchParams.put("EQ_isDelete", Boolean.FALSE);
+		//提取搜索条件，把key值按_切分查询字段与条件
+		Map<String, SearchFilter> filters = SearchFilter.parse(searchParams);
+		//拼接查询条件
+		Specification<T> spec = DynamicSpecifications.bySearchFilter(
+				filters.values());
+		return getJpaSpecificationExecutor().findAll(spec, pageRequest);
+	}
 }

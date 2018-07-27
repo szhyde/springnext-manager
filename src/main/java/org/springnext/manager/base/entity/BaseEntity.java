@@ -31,7 +31,7 @@ public abstract class BaseEntity implements java.io.Serializable{
 	 */
 	@JsonIgnore
 	@JoinColumn(name = "is_delete")
-	protected Boolean isDelete;
+	protected Boolean isDelete = false;
 
 	public Long getTid() {
 		return tid;
