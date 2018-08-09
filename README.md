@@ -1,50 +1,23 @@
 travis-ci status:[![Build Status](https://api.travis-ci.org/szhyde/springnext-manager.png?branch=master)](https://travis-ci.org/szhyde/springnext-manager/)
 
-# springnext #
-springnext是spring的模板项目
+# SpringNext #
+springnext是Spring Boot的J2EE后台工程模板
 ==========
-本工程是在管理后台的应用。
-
-所应用的相关开源项目：
-## 1.Web ##
-
-MVC框架： SpringMVC
-
-模板引擎： thymeleaf
-
-Javascript Library： JQuery
-
-UI框架:  Ace Admin
-
+相关主要技术：
+## 1.WEB ##
+MVC组件：thymeleaf+SpringMVC
+UI组件：LayUI
 ## 2.Database ##
-ORM Framework：JPA 与 MyBatis,混用,MyBatis主要用于复杂查询
-
-NOSQL数据库:Redis
-
-数据库连接池: druid
-
-Cache：JVM级：Ehcache，中央式缓存：Memcached
-
-## 3.Services ##
-Security Framework： Apache Shiro
-
-Schedule：Quartz
-
+ORM组件：JPA 
+数据源:HikariCP,Spring boot默认
+数据库脚本管理:flywaydb
+默认数据库：H2与mysql
+## 3.cache ##
+基于：spring-boot-starter-cache支持ehcache与redis
 ## 4.Utilizes ##
 General： Apache Commons 与 google Guava
-
-XML: JAXB
-
-JSON:Jackson
-
-Email:Spring for Email
-
 Logging:Slf4j 与 Logback
-
-
-## 5.Test ##
-Unit Test： JUnit
-
-Mock：Mockito
-
-Functional Test：Selenium
+系统资源监控:spring-boot-starter-actuator
+## 5.security ##
+基于spring-boot-starter-security和thymeleaf-extras-springsecurity4进行权限验证
+基于spring-boot-starter-validation进行参数验证
