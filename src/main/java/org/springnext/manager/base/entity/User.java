@@ -42,6 +42,11 @@ public class User extends BaseEntity {
 	 * 邮箱
 	 */
 	private String email;
+	
+	/**
+	 * 手机
+	 */
+	private String phone;
 	/**
 	 * 用户状态
 	 */
@@ -89,6 +94,14 @@ public class User extends BaseEntity {
 
 	public void setEmail(String email) {
 		this.email = email;
+	}
+
+	public String getPhone() {
+		return phone;
+	}
+
+	public void setPhone(String phone) {
+		this.phone = phone;
 	}
 
 	public String getUserStatus() {

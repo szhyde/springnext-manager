@@ -1,0 +1,174 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head th:include="layout/templates :: head('用户管理','用户帐号管理')">
+		<meta charset="utf-8" />
+	</head>
+
+   <div class="x-body layui-anim layui-anim-up">
+        <form class="layui-form">
+        <input type="hidden" name="tid" th:value="${user.tid}">
+        <div class="layui-form-item">
+              <label class="layui-form-label">
+                  登入帐号
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" name="loginName" required="" lay-verify="required" th:value="${user.loginName}"
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label class="layui-form-label">
+                  角色
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" name="role.roleName" id="roleName" required="true" lay-verify="required" th:value="${user.roleName}"
+                  autocomplete="off" class="layui-input" onclick="selectRole()" readonly="readonly" >
+                  <input type="hidden" name="role.tid" id="roletid" th:value="${user.roleID}">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label class="layui-form-label">
+                  用户名
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" name="userName" required="" lay-verify="required" th:value="${user.userName}"
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label class="layui-form-label">
+                  邮箱
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" name="email" required="true" lay-verify="email" th:value="${user.email}"
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label class="layui-form-label">
+                  手机
+              </label>
+              <div class="layui-input-inline">
+                  <input type="text" name="phone" required="true" lay-verify="phone" th:value="${user.phone}"
+                  autocomplete="off" class="layui-input">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label class="layui-form-label">
+                  用户状态
+              </label>
+              <div class="layui-input-inline"> 
+              	<select name="userStatus" lay-verify="required">
+		          	<option value="">--请选择--</option>
+			        <option th:each="dict,lstat:${userStatus}" th:selected="${user.userStatus eq dict.dictName}" th:value="${dict.dictValue}" th:text="${dict.dictName}" ></option>
+			      </select>
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label class="layui-form-label">
+                  所属用户组
+              </label>
+              <div class="layui-input-inline">
+              		<input type="text" name="group.groupName" id="groupName" required="true" lay-verify="required" th:value="${user.groupName}"
+                  autocomplete="off" class="layui-input" onclick="selectGroup()" readonly="readonly" >
+                  <input type="hidden" name="group.tid" id="grouptid" th:value="${user.groupID}">
+              </div>
+              <div class="layui-form-mid layui-word-aux">
+                  <span class="x-red">*</span>
+              </div>
+          </div>
+          <div class="layui-form-item">
+              <label class="layui-form-label">
+              </label>
+              <button  class="layui-btn" lay-filter="add" lay-submit="">
+                  增加
+              </button>
+          </div>
+      </form>
+    </div>
+	<script th:src="@{/assets/lib/layui/layui.all.js}" charset="utf-8"></script>
+	<script type="text/javascript" th:src="@{/assets/js/xadmin.js}"></script>
+	<script type="text/javascript">
+   
+     //监听提交
+     layui.form.on('submit(add)', function(data){
+       $.ajax({
+			type : "post",
+			url : "../update",
+			data : data.field,
+			success : function(json){
+				console.info(json);
+				console.info(json.status);
+				if(json.success == true){
+					layer.alert("修改成功", {icon: 6},function () {
+						x_admin_close();
+		            });
+				}else{
+					layer.msg(json.message);
+				}
+			},
+			error:function(json){
+				layer.msg("服务器异常，请稍后重试");
+			}
+		});
+       
+       return false;
+     });
+     
+	function selectRole(){
+		layui.layer.open({
+            type: 2,
+            id: 'selectRole',
+            title:false,
+            closeBtn :false,
+            area: ['330px', '460px'],
+            content: '../role/select' //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+            , btn: '取消'
+            , btnAlign: 'c' //按钮居中
+        });
+	}
+	function selectRoleReturn(data, index) {
+        //关闭最后一个弹出层
+        layui.layer.close(index);
+        $('#roleName').val(data.roleName);
+        $('#roletid').val(data.tid);
+    }
+	function selectGroup(){
+		layui.layer.open({
+            type: 2,
+            id: 'selectRole',
+            title:false,
+            closeBtn :false,
+            area: ['330px', '460px'],
+            content: '../group/select' //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+            , btn: '取消'
+            , btnAlign: 'c' //按钮居中
+        });
+	}
+	function selectGroupReturn(data, index) {
+        //关闭最后一个弹出层
+        layui.layer.close(index);
+        $('#groupName').val(data.name);
+        $('#grouptid').val(data.id);
+    }
+	</script>
+	</body>
+</html>

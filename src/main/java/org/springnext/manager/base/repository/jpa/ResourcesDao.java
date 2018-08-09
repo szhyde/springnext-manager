@@ -1,19 +1,14 @@
 package org.springnext.manager.base.repository.jpa;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springnext.manager.base.entity.Resources;
 
 /**
- * 资源
+ * 资源DAO
  * @author HyDe
  *
  */
-public interface ResourcesDao extends JpaRepository<Resources, Long>, JpaSpecificationExecutor<Resources> {
-	@Modifying
-	@Query(value="update Resources r set r.isDelete=:isDelete where r.tid in :tids")
-	public int updateResourcesDeleteByTid(@Param("isDelete") Boolean isDelete,@Param("tids") Long[] ids);
+public interface ResourcesDao extends BaseDao<Resources, Long> {
+	
+	Resources findByUrl(String url);
+	
 }

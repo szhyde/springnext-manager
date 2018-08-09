@@ -32,7 +32,7 @@ public class Role extends BaseEntity {
 	/**
 	 * 角色名,英文用于系统权限判断
 	 */
-	private String role;
+	private String roleName;
 	/**
 	 * 说明
 	 */
@@ -57,12 +57,12 @@ public class Role extends BaseEntity {
 	@OneToMany(mappedBy = "role")
 	private List<User> users;
 
-	public String getRole() {
-		return role;
+	public String getRoleName() {
+		return roleName;
 	}
 
-	public void setRole(String role) {
-		this.role = role;
+	public void setRoleName(String roleName) {
+		this.roleName = roleName;
 	}
 
 	public String getRemark() {

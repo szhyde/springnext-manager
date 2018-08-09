@@ -1,11 +1,14 @@
 package org.springnext.manager.base.dto;
 
 import java.io.Serializable;
+import java.util.List;
+import java.util.Map;
 
 import org.springframework.beans.BeanUtils;
 import org.springnext.manager.base.entity.User;
 
 import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.google.common.collect.Lists;
 
 public class UserDTO extends BaseDTO implements Serializable {
 
@@ -140,9 +143,22 @@ public class UserDTO extends BaseDTO implements Serializable {
 		return user;
 	}
 
-	public static UserDTO transformToUserDTO(User user) {
+	public static UserDTO transformToUserDTO(User user,Map<String, String> userStatusMap) {
 		UserDTO userDTO = new UserDTO();
 		BeanUtils.copyProperties(user, userDTO);
+		userDTO.setUserStatus(userStatusMap.get(user.getUserStatus()));
+		userDTO.setRoleID(user.getRole().getTid());
+		userDTO.setRoleName(user.getRole().getRoleName());
+		userDTO.setGroupID(user.getGroup().getTid());
+		userDTO.setGroupName(user.getGroup().getGroupName());
 		return userDTO;
+	}
+	
+	public static List<UserDTO> transformAllToUserDTO(List<User> users,Map<String, String> userStatusMap) {
+		List<UserDTO> returnList = Lists.newArrayList();
+		for (User user : users) {
+			returnList.add(transformToUserDTO(user,userStatusMap));
+		}
+		return returnList;
 	}
 }

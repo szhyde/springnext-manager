@@ -118,7 +118,7 @@ body{
     width: 100%;
 }
 .x-body{
-    padding: 20px;
+    padding: 10px;
 }
 .x-nav{
     padding: 0 20px;
@@ -136,7 +136,7 @@ xblock{
     line-height: 22px;
     /* border-left: 5px solid #009688; */
     border-radius: 0 2px 2px 0;
-    background-color: #f2f2f2;
+    background-color: #e2e2e2;
 }
 .x-right{
   float: right;

@@ -37,7 +37,6 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        
         http.authorizeRequests()
       //允许所有用户访问"/"和"/home"
 //                .antMatchers("/", "/home").permitAll()
@@ -47,6 +46,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .formLogin()
                 //指定登录页是"/login"
                 .loginPage("/login")
+                .failureUrl("/login?error")
                 .defaultSuccessUrl("/")//设置登录成功后默认跳转
                 .permitAll()
                 .and()
@@ -59,7 +59,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .logoutSuccessUrl("/login")//设置退出登录后的默认url是
                 .permitAll();
         
-//        http.headers().frameOptions()
+      //所以监控不用权限
+//    	http.requestMatcher(EndpointRequest.toAnyEndpoint()).authorizeRequests()
+//        .anyRequest().permitAll();
 
     }
 

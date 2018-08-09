@@ -1,6 +1,8 @@
 package org.springnext.manager.base.entity;
 
 import javax.persistence.Entity;
+import javax.persistence.JoinColumn;
+import javax.persistence.ManyToOne;
 import javax.persistence.Table;
 
 import org.hibernate.annotations.Cache;
@@ -8,6 +10,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
 
 /**
  * 资源
+ * 
  * @author HyDe
  *
  */
@@ -18,15 +21,21 @@ public class Resources extends BaseEntity {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = -2991935228174338908L;
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 资源地址
 	 */
 	private String url;
 	/**
-	 * 权限要求
+	 * 关联权限
 	 */
-	private String permissions;
+	@ManyToOne
+	@JoinColumn(name = "permissions_id")
+	private Permissions permissions;
+	/**
+	 * 权限名
+	 */
+	private String permissionsName;
 	/**
 	 * 说明
 	 */
@@ -40,12 +49,20 @@ public class Resources extends BaseEntity {
 		this.url = url;
 	}
 
-	public String getPermissions() {
+	public Permissions getPermissions() {
 		return permissions;
 	}
 
-	public void setPermissions(String permissions) {
+	public void setPermissions(Permissions permissions) {
 		this.permissions = permissions;
+	}
+
+	public String getPermissionsName() {
+		return permissionsName;
+	}
+
+	public void setPermissionsName(String permissionsName) {
+		this.permissionsName = permissionsName;
 	}
 
 	public String getRemark() {

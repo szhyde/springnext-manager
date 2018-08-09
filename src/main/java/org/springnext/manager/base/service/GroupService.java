@@ -3,11 +3,10 @@ package org.springnext.manager.base.service;
 import java.util.List;
 
 import org.springframework.beans.factory.annotation.Autowired;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.repository.PagingAndSortingRepository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
 import org.springnext.manager.base.entity.Group;
+import org.springnext.manager.base.repository.jpa.BaseDao;
 import org.springnext.manager.base.repository.jpa.GroupDao;
 
 /**
@@ -16,7 +15,7 @@ import org.springnext.manager.base.repository.jpa.GroupDao;
  *
  */
 @Service
-@Transactional
+@Transactional(readOnly=true)
 public class GroupService extends BaseService<Group, Long>{
     
 	
@@ -33,36 +32,12 @@ public class GroupService extends BaseService<Group, Long>{
 	public List<Group> getParentGroup(){
 		return groupDao.getParentGroup();
 	}
-	
-	
-	/**
-	 * 保存
-	 * @param group
-	 */
-	public void saveGroup(Group group){
-		group.setIsDelete(false);
-		groupDao.save(group);
-	}
-	
-	/**
-	 * 删除
-	 * @param id
-	 */
-	public void deleteGroup(Long id) {
-		groupDao.updateGroupDeleteByTid(true, id);
-	}
 
-    @Override
-    protected PagingAndSortingRepository<Group, Long> initPagingAndSortingRepository()
-    {
-        return groupDao;
-    }
 
-    @Override
-    protected JpaSpecificationExecutor<Group> initJpaSpecificationExecutor()
-    {
-        return groupDao;
-    }
-	
+
+	@Override
+	protected BaseDao<Group, Long> initBaseDao() {
+		return groupDao;
+	}
 	
 }

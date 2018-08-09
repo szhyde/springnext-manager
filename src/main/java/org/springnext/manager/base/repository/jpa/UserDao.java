@@ -1,10 +1,5 @@
 package org.springnext.manager.base.repository.jpa;
 
-import org.springframework.data.jpa.repository.JpaRepository;
-import org.springframework.data.jpa.repository.JpaSpecificationExecutor;
-import org.springframework.data.jpa.repository.Modifying;
-import org.springframework.data.jpa.repository.Query;
-import org.springframework.data.repository.query.Param;
 import org.springnext.manager.base.entity.User;
 
 /**
@@ -12,11 +7,6 @@ import org.springnext.manager.base.entity.User;
  * @author HyDe
  *
  */
-public interface UserDao extends JpaRepository<User, Long>, JpaSpecificationExecutor<User> {
+public interface UserDao extends BaseDao<User, Long> {
 
-	User findByLoginName(String loginName);
-	
-	@Modifying
-	@Query(value="update User u set u.isDelete=:isDelete where u.tid in :tids")
-	public int updateUserDeleteByTid(@Param("isDelete") Boolean isDelete,@Param("tids") Long[] ids);
 }

@@ -9,63 +9,101 @@
     
     
     <div class="x-body">
-      <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
-          <input type="text" name="loginName"  placeholder="登入帐号" autocomplete="off" class="layui-input">
-          <input type="text" name="userName"  placeholder="用户姓名" autocomplete="off" class="layui-input">
-          <input type="text" name="userStatus"  placeholder="用户状态" autocomplete="off" class="layui-input">
-          <input type="text" name="roleName"  placeholder="所属角色" autocomplete="off" class="layui-input">
-          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
-        </form>
-      </div>
-      <xblock>
-      	<button class="layui-btn" onclick="showAddGroup()"><i class="layui-icon"></i></button>
-      	<button class="layui-btn layui-btn-danger" onclick="delGroup()"><i class="layui-icon"></i></button>
-        
-        <button class="layui-btn layui-btn-danger x-right" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        <button class="layui-btn x-right" onclick="x_admin_show('增加用户','./add',600,400)"><i class="layui-icon"></i>增加用户</button>
-        
-        <span class="x-right" style="line-height:40px;"></span>
-      </xblock>
-      <div class="layui-row">
-      	<div class="layui-col-md2">
+    	<div class="layui-col-md2" >
+      		<xblock style="margin-right: 10px;padding: 5px 15px;">
+	      		<button class="layui-btn layui-btn-sm" onclick="showAddGroup()"><i class="layui-icon"></i></button>
+	      		<button class="layui-btn layui-btn-sm layui-btn-normal" onclick="add()"><i class="layui-icon">&#xe642;</i></button>
+		      	<button class="layui-btn layui-btn-danger layui-btn-sm" onclick="delGroup()"><i class="layui-icon"></i></button>
+	      	</xblock>
 	      <ul id="groupTree" lay-filter='groupTree'></ul>
 	    </div>
 	    <div class="layui-col-md10">
-	      <table class="layui-table" lay-filter="main_table" id="main_table"
-               lay-data="{id: 'main_table',url:'./queryList', page:true,height:'full-218',cellMinWidth:120}">
-            <thead>
-	            <tr>
-	                <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
-	                <th lay-data="{field:'loginName', align:'center'}">登入帐号</th>
-	                <th lay-data="{field:'userName', align:'center'}">用户姓名</th>
-	                <th lay-data="{field:'email', align:'center'}">邮箱</th>
-	                <th lay-data="{field:'phone', align:'center'}">手机</th>
-	                <th lay-data="{field:'userStatus', align:'center'}">用户状态</th>
-	                <th lay-data="{field:'groupName', align:'center'}">所属组织</th>
-	                <th lay-data="{field:'roleName',align:'center'}">所属角色</th>
-	                <th lay-data="{align:'center', toolbar:'#barDemo', minWidth:180, fixed:'right'}">操作</th>
-	            </tr>
-            </thead>
-        </table>
-        <script type="text/html" id="barDemo">
-			<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
-			<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="del">删除</a>
-			<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="products_details">查看详情</a>
-    	</script>
-	    </div>
-	    
+	      <div class="layui-row">
+	        <form class="layui-form layui-col-md12 x-so">
+	          <input type="text" name="search_LIKE_loginName"  placeholder="登入帐号" autocomplete="off" class="layui-input">
+	          <input type="text" name="search_LIKE_userName"  placeholder="用户姓名" autocomplete="off" class="layui-input">
+	          <div class="layui-input-inline">
+		          <select name="search_EQ_userStatus" placeholder="用户状态" >
+		          	<option value="">用户状态</option>
+			        <option th:each="dict,lstat:${userStatus}" th:value="${dict.dictValue}" th:text="${dict.dictName}" ></option>
+			      </select>
+		      </div>
+	          <input type="text" name="search_EQ_role.roleName" id="search_EQ_roleName"  placeholder="所属角色" autocomplete="off" class="layui-input" onclick="selectRole()" readonly="readonly">
+	          <input type="hidden" name="search_EQ_role.tid" id="search_EQ_roletid">
+	          <button class="layui-btn"  lay-submit="" lay-filter="formSearch"><i class="layui-icon">&#xe615;</i></button>
+	        </form>
+	      </div>
+	      <div class="layui-row">
+		    <xblock>
+		        <button class="layui-btn" onclick="add()"><i class="layui-icon">&#xe61f;</i></button>
+		         <button class="layui-btn layui-btn-danger" onclick="batchDelete()"><i class="layui-icon">&#xe640;</i></button>
+		        <span class="x-right" style="line-height:40px;"></span>
+		      </xblock>
+		      <table class="layui-table" lay-filter="main_table" id="main_table"
+	               lay-data="{id: 'main_table',url:'./queryList', page:true,height:'full-187',cellMinWidth:120}">
+	            <thead>
+		            <tr>
+		                <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
+		                <th lay-data="{field:'loginName', align:'center'}">登入帐号</th>
+		                <th lay-data="{field:'userName', align:'center'}">用户姓名</th>
+		                <th lay-data="{field:'email', align:'center'}">邮箱</th>
+		                <th lay-data="{field:'phone', align:'center'}">手机</th>
+		                <th lay-data="{field:'userStatus', align:'center'}">用户状态</th>
+		                <th lay-data="{field:'groupName', align:'center'}">所属组织</th>
+		                <th lay-data="{field:'roleName',align:'center'}">所属角色</th>
+		                <th lay-data="{align:'center', toolbar:'#tableBar', minWidth:160, fixed:'right'}">操作</th>
+		            </tr>
+	            </thead>
+	        </table>
+	        <script type="text/html" id="tableBar">
+				<a class="layui-btn layui-btn-xs" lay-event="resetpass"><i class="layui-icon">&#xe673;</i></a>
+				<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i></a>
+				<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon">&#xe640;</i></a>
+    		</script>
+		 </div>
 	  </div>
     </div>
 	<script th:src="@{/assets/lib/layui/layui.all.js}" charset="utf-8"></script>
 	<script type="text/javascript" th:src="@{/assets/js/xadmin.js}"></script>
+	<script type="text/javascript" th:src="@{/assets/js/crud.js}"></script>
 	<script type="text/javascript">
+	$(function(){
+	// 监听工具条
+	layui.table.on('tool(main_table)', function(obj) {
+		tableToolRUD(obj);
+		if (obj.event === 'resetpass') {
+			x_admin_show('重置密码', './resetpass/' + data.tid, crudWidth, crudHeight-150, null, tableReload)
+		}
+	});
+	});
+	
+	var crudWidth = 530;
+	var crudHeight = 540;
 	$(function(){
 		renderTree();
 	})
 	var groupRow,groupId = "";
+	function selectRole(){
+		var layer = layui.layer;
+        layer.open({
+            type: 2,
+            id: 'selectRole',
+            title:false,
+            closeBtn :false,
+            area: ['330px', '460px'],
+            content: '../role/select' //这里content是一个DOM，注意：最好该元素要存放在body最外层，否则可能被其它的相对元素所影响
+            , btn: '取消'
+            , btnAlign: 'c' //按钮居中
+        });
+	}
+	function selectRoleReturn(data, index) {
+        //关闭最后一个弹出层
+        layer.close(index);
+        $('#search_EQ_roleName').val(data.roleName);
+        $('#search_EQ_roletid').val(data.tid);
+    }
 	function showAddGroup(){
-		x_admin_show('增加分组',('../group/add?groupId='+groupId),600,260,null,renderTree)
+		x_admin_show('增加分组',('../group/add?groupId='+groupId),500,240,null,renderTree)
 	}
 	function delGroup () {
 		if(groupId!=""){
@@ -77,6 +115,7 @@
 					success : function(json){
 						if(json.success){
 							layer.msg('删除成功', {icon: 1});
+							groupRow,groupId = "";
 							renderTree();
 						}else{
 							layer.msg('删除失败', {icon: 2});
@@ -96,16 +135,7 @@
         
       }
 	
-	function delAll () {
-
-        var data = layui.table.checkStatus('main_table').data.length;
-  
-        layer.confirm('确认要删除吗？'+data,function(index){
-            //捉到所有被选中的，发异步进行删除
-            layer.msg('删除成功', {icon: 1});
-            $(".layui-form-checked").not('.header').parents('tr').remove();
-        });
-      }
+	
 	//加载树形数据
     function renderTree() {
     	$('#groupTree').html('');

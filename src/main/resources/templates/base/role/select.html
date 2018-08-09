@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:include="layout/templates :: head('角色管理','角色管理')">
+<meta charset="utf-8" />
+</head>
+
+<body class="layui-anim layui-anim-up">
+
+		<div class="layui-row">
+			<form class="layui-form layui-col-md12 x-so" style="margin: 0px;">
+				<input type="text" name="search_LIKE_roleName" style="width: 100px;" placeholder="角色" autocomplete="off" class="layui-input"> 
+				<input type="text" name="search_LIKE_remark"  style="width: 100px;" placeholder="说明" autocomplete="off" class="layui-input">
+				<button class="layui-btn" lay-submit="" lay-filter="formSearch">
+					<i class="layui-icon">&#xe615;</i>
+				</button>
+			</form>
+		</div>
+		<div class="layui-row">
+			<table class="layui-table" lay-filter="main_table" 
+				lay-data="{id: 'main_table',url:'./queryList', page:true,limit:5,height:'full-197',cellMinWidth:120}">
+				<thead>
+					<tr>
+						<th lay-data="{field:'roleName', align:'center'}">角色</th>
+						<th lay-data="{field:'remark', align:'center'}">说明</th>
+						<th lay-data="{align:'center', toolbar:'#tableBar'}">选择</th>
+					</tr>
+				</thead>
+			</table>
+			<script type="text/html" id="tableBar">
+			<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="select"><i class="layui-icon">&#xe642;</i></a>
+    		</script>
+		</div>
+	<script th:src="@{/assets/lib/layui/layui.all.js}" charset="utf-8"></script>
+	<script type="text/javascript">
+		// 监听搜索查询
+		layui.form.on('submit(formSearch)', function(data) {
+			var table = layui.table;
+			table.reload('main_table', {
+				where : data.field,
+				page : {
+					curr : 1
+				}
+			})
+			return false;
+		});
+	 //监听工具条
+	  layui.table.on('tool(main_table)', function(obj){
+	    var data = obj.data;
+	    if(obj.event === 'select'){
+	    	parent.selectRoleReturn(data,parent.layer.getFrameIndex(window.name));
+	    }
+	  });
+	</script>
+</body>
+</html>

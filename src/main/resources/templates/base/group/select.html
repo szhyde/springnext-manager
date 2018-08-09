@@ -1,0 +1,38 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+	<head th:include="layout/templates :: head('用户组','增加用户组')">
+		<meta charset="utf-8" />
+	</head>
+
+   <div class="x-body layui-anim layui-anim-up">
+        <ul id="groupTree" lay-filter='groupTree'></ul>
+    </div>
+	<script th:src="@{/assets/lib/layui/layui.all.js}" charset="utf-8"></script>
+	<script type="text/javascript" th:src="@{/assets/js/xadmin.js}"></script>
+	<script type="text/javascript">
+          $(function(){
+        	  $('#groupTree').html('');
+          	var treeData;
+          	//加载树形结构数据
+            	$.ajax({
+      			type : "get",
+      			url : "./getAllGroup",
+      			async: false,
+      			success : function(json){
+      				treeData=json;
+      			}
+      		});
+              layui.tree({
+                  elem: '#groupTree', //指定元素
+                  target: '_blank', //是否新选项卡打开（比如节点返回href才有效）
+                  click: function (item) { //点击节点回调
+                	  parent.selectGroupReturn(item,parent.layer.getFrameIndex(window.name));
+                  }, 
+               	nodes:treeData
+              }); 
+          });
+          
+          
+    </script>
+	</body>
+</html>

@@ -1,60 +1,64 @@
 <!DOCTYPE html>
-<html xmlns:th="http://www.thymeleaf.org" xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
-	<head th:include="layout/templates :: head('字典管理','字典管理')">
-		<meta charset="utf-8" />
-	</head>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:include="layout/templates :: head('字典管理','字典管理')">
+<meta charset="utf-8" />
+</head>
 
-  <body class="layui-anim layui-anim-up">
-    <div th:replace="layout/templates :: nav('系统设置','字典管理')"></div>
-    
-    
-    <div class="x-body">
-      <div class="layui-row">
-        <form class="layui-form layui-col-md12 x-so">
-          <input type="text" name="typeName"  placeholder="类别显示名" autocomplete="off" class="layui-input">
-          <input type="text" name="typeValue"  placeholder="类别查询值" autocomplete="off" class="layui-input">
-          <button class="layui-btn"  lay-submit="" lay-filter="sreach"><i class="layui-icon">&#xe615;</i></button>
-        </form>
-      </div>
-      <xblock>
-      <button class="layui-btn" onclick="x_admin_show('增加字典','./add',600,400)"><i class="layui-icon"></i>增加字典</button>
-      
-        <button class="layui-btn layui-btn-danger" onclick="delAll()"><i class="layui-icon"></i>批量删除</button>
-        
-        
-        <span class="x-right" style="line-height:40px;"></span>
-      </xblock>
-      <div class="layui-row">
-      	<div class="layui-col-md2">
-	      <ul id="groupTree" lay-filter='groupTree'></ul>
-	    </div>
-	    <div class="layui-col-md10">
-	      <table class="layui-table" lay-filter="main_table" id="main_table"
-               lay-data="{id: 'main_table',url:'./queryList', page:true,height:'full-218',cellMinWidth:120}">
-            <thead>
-	            <tr>
-	                <th lay-data="{type:'checkbox', fixed: 'left'}"></th>
-	                <th lay-data="{field:'dictName', align:'center'}">字典显示名</th>
-	                <th lay-data="{field:'dictValue', align:'center'}">字典存储值</th>
-	                <th lay-data="{field:'typeName', align:'center'}">类别显示名</th>
-	                <th lay-data="{field:'typeValue', align:'center'}">类别查询值</th>
-	                <th lay-data="{align:'center', toolbar:'#barDemo', minWidth:180, fixed:'right'}">操作</th>
-	            </tr>
-            </thead>
-        </table>
-        <script type="text/html" id="barDemo">
-			<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="edit">修改</a>
-			<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="del">删除</a>
-			<a class="layui-btn layui-btn-primary layui-btn-xs" lay-event="products_details">查看详情</a>
+<body class="layui-anim layui-anim-up">
+	<div th:replace="layout/templates :: nav('系统设置','字典管理')"></div>
+
+
+	<div class="x-body">
+		<div class="layui-row">
+			<form class="layui-form layui-col-md12 x-so">
+				<input type="text" name="search_LIKE_typeName" placeholder="类别显示名" autocomplete="off" class="layui-input"> 
+				<input type="text" name="search_LIKE_typeValue" placeholder="类别查询值" autocomplete="off" class="layui-input">
+				<button class="layui-btn" lay-submit="" lay-filter="formSearch">
+					<i class="layui-icon">&#xe615;</i>
+				</button>
+			</form>
+		</div>
+		<xblock>
+		<button class="layui-btn"
+			onclick="add()">
+			<i class="layui-icon">&#xe61f;</i>
+		</button>
+
+		<button class="layui-btn layui-btn-danger" onclick="batchDelete()">
+			<i class="layui-icon">&#xe640;</i>
+		</button>
+
+
+		<span class="x-right" style="line-height: 40px;"></span> </xblock>
+		<div class="layui-row">
+			<table class="layui-table" lay-filter="main_table" 
+				lay-data="{id: 'main_table',url:'./queryList', page:true,height:'full-197',cellMinWidth:120}">
+				<thead>
+					<tr>
+						<th lay-data="{type:'checkbox', fixed: 'left'}"></th>
+						<th lay-data="{field:'dictName', align:'center'}">字典显示名</th>
+						<th lay-data="{field:'dictValue', align:'center'}">字典存储值</th>
+						<th lay-data="{field:'typeName', align:'center'}">类别显示名</th>
+						<th lay-data="{field:'typeValue', align:'center'}">类别查询值</th>
+						<th
+							lay-data="{align:'center', toolbar:'#tableBar', minWidth:160, fixed:'right'}">操作</th>
+					</tr>
+				</thead>
+			</table>
+			<script type="text/html" id="tableBar">
+			<a class="layui-btn layui-btn-normal layui-btn-xs" lay-event="edit"><i class="layui-icon">&#xe642;</i></a>
+			<a class="layui-btn layui-btn-danger layui-btn-xs" lay-event="del"><i class="layui-icon">&#xe640;</i></a>
     	</script>
-	    </div>
-	    
-	  </div>
-    </div>
+
+		</div>
+	</div>
 	<script th:src="@{/assets/lib/layui/layui.all.js}" charset="utf-8"></script>
 	<script type="text/javascript" th:src="@{/assets/js/xadmin.js}"></script>
 	<script type="text/javascript">
-	
+		var crudWidth = 455;
+		var crudHeight = 330;
 	</script>
-	</body>
+	<script type="text/javascript" th:src="@{/assets/js/crud.js}"></script>
+</body>
 </html>
