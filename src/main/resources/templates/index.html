@@ -59,7 +59,6 @@
                     <cite>系统设置</cite>
                     <i class="iconfont nav_right">&#xe697;</i>
                 </a>
-                <span sec:authentication="principal.authorities">[ROLE_USER, ROLE_ADMIN]</span>
                 <ul class="sub-menu">
                     <li sec:authorize="hasRole('ROLE_baseUserSearch')">
                         <a _href="./base/user/list">
