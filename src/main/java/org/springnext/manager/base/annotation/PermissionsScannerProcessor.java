@@ -62,7 +62,7 @@ public class PermissionsScannerProcessor implements ApplicationContextAware {
 		Resources resource;
 		Permissions permission;
 		Permissions parent;
-		Map<Long,Permissions> permissionsMap = Maps.newHashMap();
+		Map<String,Permissions> permissionsMap = Maps.newHashMap();
 		// 开始对找到的资源进行入库操作
 		while (queue.size() > 0) {
 			pa = queue.poll();
@@ -110,7 +110,7 @@ public class PermissionsScannerProcessor implements ApplicationContextAware {
 			}
 		}
 
-		Role role = roleService.findOne(1l);
+		Role role = roleService.findOne("692dfb7178b842f09044bb86f34aaa3c");
 		if (role != null) {
 			List<Permissions> list = Lists.newArrayList();
 			list.addAll(permissionsMap.values());

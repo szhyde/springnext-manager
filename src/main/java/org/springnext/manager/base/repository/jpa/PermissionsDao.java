@@ -7,7 +7,7 @@ import org.springnext.manager.base.entity.Permissions;
  * @author HyDe
  *
  */
-public interface PermissionsDao extends BaseDao<Permissions, Long> {
+public interface PermissionsDao extends BaseDao<Permissions, String> {
 	
 //	Permissions findByPermissions(String permissions);
 	

@@ -118,7 +118,7 @@ public class UserController {
 	 */
 	@PermissionsAnnotation(permission = "baseUserEdit",permissionRemark="用户修改权限",parentPermission="baseUserSearch", url = "/base/user/edit",resourceRemark="跳转到修改用户页")
 	@RequestMapping("/edit/{userId}")
-	public String edit(@PathVariable("userId") Long userId, Model model) {
+	public String edit(@PathVariable("userId") String userId, Model model) {
 		User user = userService.findOne(userId);
 		model.addAttribute("userStatus", dictionaryService.findAllByAttributesName("EQ_typeValue", "userStatus", null));
 		Map<String, String> userStatusMap = dictionaryService.getDictionaryMap("userStatus");
@@ -152,7 +152,7 @@ public class UserController {
 	@PermissionsAnnotation(permission = "baseUserDelete",permissionRemark="用户删除权限",parentPermission="baseUserSearch", url = "/base/user/delete",resourceRemark="删除用户")
 	@RequestMapping("/delete/{userId}")
 	@ResponseBody
-	public AjaxMessage delete(@PathVariable("userId") Long userId) {
+	public AjaxMessage delete(@PathVariable("userId") String userId) {
 
 		userService.delete(userId);
 		return AjaxMessage.createSuccessMsg("删除成功");
@@ -167,7 +167,7 @@ public class UserController {
 	@PermissionsAnnotation(permission = "baseUserDelete",permissionRemark="用户删除权限",parentPermission="baseUserSearch", url = "/base/user/deleteAll",resourceRemark="批量删除用户")
 	@RequestMapping(value = "deleteAll", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxMessage deleteAll(@RequestParam("ids[]") Long... ids) {
+	public AjaxMessage deleteAll(@RequestParam("ids[]") String... ids) {
 		userService.deleteAllByLogic(ids);
 		return AjaxMessage.createSuccessMsg();
 
@@ -181,7 +181,7 @@ public class UserController {
 	 */
 	@PermissionsAnnotation(permission = "baseUserResetpass",permissionRemark="用户重置密码权限",parentPermission="baseUserSearch", url = "/base/user/resetpass",resourceRemark="跳转到重置密码页")
 	@RequestMapping(value = "/resetpass/{id}", method = RequestMethod.GET)
-	public String resetPassword(@PathVariable("id") Long id, Model model) {
+	public String resetPassword(@PathVariable("id") String id, Model model) {
 		User user = userService.findOne(id);
 		model.addAttribute("user", user);
 		return "base/user/resetpass";
@@ -196,7 +196,7 @@ public class UserController {
 	@PermissionsAnnotation(permission = "baseUserResetpass",permissionRemark="用户重置密码权限",parentPermission="baseUserSearch", url = "/base/user/changepass",resourceRemark="重置密码")
 	@RequestMapping(value = "changepass")
 	@ResponseBody
-	public AjaxMessage changePassword(Long tid,String newPassword) {
+	public AjaxMessage changePassword(String tid,String newPassword) {
 		userService.changePassword(tid, newPassword);
 		return AjaxMessage.createSuccessMsg("修改成功");
 	}
@@ -220,7 +220,7 @@ public class UserController {
 	@RequestMapping(value = "changeselfpass")
 	@ResponseBody
 	public AjaxMessage changeSelfPassword(String oldPassword,String newPassword) {
-		if(userService.changePassword(oldPassword, newPassword)) {
+		if(userService.changeSelfPassword(oldPassword, newPassword)) {
 			return AjaxMessage.createSuccessMsg("修改成功");
 		}
 		return AjaxMessage.createFailureMsg("原密码不正确");

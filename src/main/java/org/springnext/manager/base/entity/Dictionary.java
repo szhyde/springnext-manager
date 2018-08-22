@@ -13,7 +13,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  *
  */
 @Entity
-@Table(name = "t_dictionary")
+@Table(name = "t_sys_dictionary")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Dictionary extends BaseEntity {
 

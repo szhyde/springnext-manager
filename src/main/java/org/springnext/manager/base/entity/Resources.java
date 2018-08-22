@@ -15,7 +15,7 @@ import org.hibernate.annotations.CacheConcurrencyStrategy;
  *
  */
 @Entity
-@Table(name = "t_resources")
+@Table(name = "t_sys_resources")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Resources extends BaseEntity {
 	/**

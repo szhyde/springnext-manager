@@ -119,7 +119,7 @@ public class RoleController {
 	 */
 	@PermissionsAnnotation(permission = "baseRoleSave",permissionRemark="角色创建与修改权限",parentPermission="baseRoleSearch", url = "/base/role/edit",resourceRemark="跳转到修改角色页")
 	@RequestMapping(value = "edit/{id}")
-	public String edit(@PathVariable("id") Long id,Model model) {
+	public String edit(@PathVariable("id") String id,Model model) {
 		model.addAttribute("role", roleService.findOne(id));
 		return "base/role/edit";
 
@@ -134,7 +134,7 @@ public class RoleController {
 	@PermissionsAnnotation(permission = "baseRoleDelete",permissionRemark="角色删除权限",parentPermission="baseRoleSearch", url = "/base/role/delete",resourceRemark="删除角色")
 	@RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxMessage delete(@PathVariable("id") Long id) {
+	public AjaxMessage delete(@PathVariable("id") String id) {
 		roleService.deleteByLogic(id);
 		return AjaxMessage.createSuccessMsg();
 
@@ -150,7 +150,7 @@ public class RoleController {
 	@PermissionsAnnotation(permission = "baseRoleDelete",permissionRemark="角色删除权限",parentPermission="baseRoleSearch", url = "/base/role/deleteAll",resourceRemark="批量删除角色")
 	@RequestMapping(value = "deleteAll", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxMessage deleteAll(@RequestParam("ids[]") Long... ids) {
+	public AjaxMessage deleteAll(@RequestParam("ids[]") String... ids) {
 		roleService.deleteAllByLogic(ids);
 		return AjaxMessage.createSuccessMsg();
 
@@ -163,7 +163,7 @@ public class RoleController {
 	 * @return
 	 */
 	@RequestMapping(value = "view/{id}")
-	public String view(@PathVariable("id") Long id,Model model) {
+	public String view(@PathVariable("id") String id,Model model) {
 		model.addAttribute("role", roleService.findOne(id));
 		return "base/role/edit";
 

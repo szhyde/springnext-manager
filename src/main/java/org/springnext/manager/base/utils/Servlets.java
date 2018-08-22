@@ -14,6 +14,7 @@ import javax.servlet.ServletRequest;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.apache.catalina.util.URLEncoder;
 import org.apache.commons.collections.MapUtils;
 import org.apache.commons.lang3.Validate;
 
@@ -135,7 +136,7 @@ public class Servlets {
 		String agent = request.getHeader("User-Agent");
 		boolean isMSIE = (agent != null && agent.toUpperCase().indexOf("MSIE") != -1);
 		if (isMSIE) {
-			encodedfileName = Encodes.urlEncode(fileName);
+			encodedfileName = URLEncoder.DEFAULT.encode(fileName, Charsets.UTF_8);
 		} else {
 			encodedfileName = new String(fileName.getBytes(), Charsets.ISO_8859_1);
 		}

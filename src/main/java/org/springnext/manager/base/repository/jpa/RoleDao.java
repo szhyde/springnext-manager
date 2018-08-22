@@ -7,5 +7,5 @@ import org.springnext.manager.base.entity.Role;
  * @author HyDe
  *
  */
-public interface RoleDao extends BaseDao<Role,Long>  {
+public interface RoleDao extends BaseDao<Role,String>  {
 }

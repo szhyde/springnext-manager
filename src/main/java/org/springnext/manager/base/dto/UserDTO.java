@@ -45,14 +45,14 @@ public class UserDTO extends BaseDTO implements Serializable {
 	/**
 	 * 所属组织
 	 */
-	private Long groupID;
+	private String groupID;
 
 	private String groupName;
 
 	/**
 	 * 所属角色
 	 */
-	private Long roleID;
+	private String roleID;
 
 	private String roleName;
 
@@ -96,11 +96,11 @@ public class UserDTO extends BaseDTO implements Serializable {
 		this.userStatus = userStatus;
 	}
 
-	public Long getGroupID() {
+	public String getGroupID() {
 		return groupID;
 	}
 
-	public void setGroupID(Long groupID) {
+	public void setGroupID(String groupID) {
 		this.groupID = groupID;
 	}
 
@@ -112,11 +112,11 @@ public class UserDTO extends BaseDTO implements Serializable {
 		this.groupName = groupName;
 	}
 
-	public Long getRoleID() {
+	public String getRoleID() {
 		return roleID;
 	}
 
-	public void setRoleID(Long roleID) {
+	public void setRoleID(String roleID) {
 		this.roleID = roleID;
 	}
 

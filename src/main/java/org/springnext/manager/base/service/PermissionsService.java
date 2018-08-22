@@ -14,13 +14,13 @@ import org.springnext.manager.base.repository.jpa.PermissionsDao;
  */
 @Service
 @Transactional(readOnly=true)
-public class PermissionsService extends BaseService<Permissions, Long>{
+public class PermissionsService extends BaseService<Permissions, String>{
 
 	@Autowired
 	private PermissionsDao permissionsDao;
 
 	@Override
-	protected BaseDao<Permissions, Long> initBaseDao() {
+	protected BaseDao<Permissions, String> initBaseDao() {
 		return permissionsDao;
 	}
 

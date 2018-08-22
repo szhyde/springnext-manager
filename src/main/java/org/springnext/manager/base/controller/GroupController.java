@@ -88,7 +88,7 @@ public class GroupController {
 	 */
 	@PermissionsAnnotation(permission = "baseGroupSave",permissionRemark="用户组创建与修改权限",parentPermission="baseUserSearch", url = "/base/group/add",resourceRemark="跳转到增加用户组页")
 	@RequestMapping("/add")
-	public String add(@RequestParam("groupId") Long tid, Model model) {
+	public String add(@RequestParam("groupId") String tid, Model model) {
 		if(tid!=null) {
 			model.addAttribute("group", groupService.findOne(tid));
 		}
@@ -120,7 +120,7 @@ public class GroupController {
 	 */
 	@PermissionsAnnotation(permission = "baseGroupSave",permissionRemark="用户组创建与修改权限",parentPermission="baseUserSearch", url = "/base/group/edit",resourceRemark="跳转到用户组修改")
 	@RequestMapping(value = "edit/{id}")
-	public String edit(@PathVariable("id") Long id,Model model) {
+	public String edit(@PathVariable("id") String id,Model model) {
 		model.addAttribute("group", groupService.findOne(id));
 		return "base/group/edit";
 
@@ -134,7 +134,7 @@ public class GroupController {
 	@PermissionsAnnotation(permission = "baseGroupDelete",permissionRemark="删除用户组权限",parentPermission="baseUserSearch", url = "/base/group/delete",resourceRemark="删除用户组")
 	@RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxMessage delete(@PathVariable("id") Long id) {
+	public AjaxMessage delete(@PathVariable("id") String id) {
 		groupService.deleteByLogic(id);
 		return AjaxMessage.createSuccessMsg();
 	}

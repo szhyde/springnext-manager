@@ -8,5 +8,5 @@ import org.springnext.manager.base.entity.Dictionary;
  * @author HyDe
  *
  */
-public interface DictionaryDao extends BaseDao<Dictionary,Long> {
+public interface DictionaryDao extends BaseDao<Dictionary,String> {
 }

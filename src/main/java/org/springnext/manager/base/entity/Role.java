@@ -21,7 +21,7 @@ import org.hibernate.annotations.FetchMode;
  *
  */
 @Entity
-@Table(name = "t_role")
+@Table(name = "t_sys_role")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Role extends BaseEntity {
 
@@ -42,7 +42,7 @@ public class Role extends BaseEntity {
 	 */
 	/* 多对多定义 */
 	@ManyToMany
-	@JoinTable(name = "t_role_permissions", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "permissions_id") })
+	@JoinTable(name = "t_sys_role_permissions", joinColumns = { @JoinColumn(name = "role_id") }, inverseJoinColumns = { @JoinColumn(name = "permissions_id") })
 	/* 加载策略定义 */
 	@Fetch(FetchMode.SUBSELECT)
 	/* 集合按id排序 */

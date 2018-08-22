@@ -24,7 +24,7 @@ import com.google.common.collect.Maps;
  */
 @Service
 @Transactional(readOnly=true)
-public class UserService extends BaseService<User, Long>{
+public class UserService extends BaseService<User, String>{
 
 	private static Logger logger = LoggerFactory
 			.getLogger(UserService.class);
@@ -87,7 +87,7 @@ public class UserService extends BaseService<User, Long>{
 	 * @param oldPassword
 	 * @param newPassword
 	 */
-	public boolean changePassword(String oldPassword,String newPassword) {
+	public boolean changeSelfPassword(String oldPassword,String newPassword) {
 		String loginName = getCurrentLoginName();
 		User user = findOneByAttributesName("EQ_loginName", loginName);
 		if(passwordEncoder.matches(oldPassword, user.getLoginPassword())){
@@ -103,7 +103,7 @@ public class UserService extends BaseService<User, Long>{
 	 * @param tid
 	 * @param newPassword
 	 */
-	public void changePassword(Long tid,String newPassword) {
+	public void changePassword(String tid,String newPassword) {
 		User user = findOne(tid);
 		user.setLoginPassword(passwordEncoder.encode(newPassword));
 		userDao.save(user);
@@ -111,7 +111,7 @@ public class UserService extends BaseService<User, Long>{
 
 
 	@Override
-	protected BaseDao<User, Long> initBaseDao() {
+	protected BaseDao<User, String> initBaseDao() {
 		return userDao;
 	}
 }

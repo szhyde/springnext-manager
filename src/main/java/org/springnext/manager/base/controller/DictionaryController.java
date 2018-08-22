@@ -111,7 +111,7 @@ public class DictionaryController {
 	 */
 	@PermissionsAnnotation(permission = "baseDictionarySave",permissionRemark="字典创建与修改权限",parentPermission="baseDictionarySearch", url = "/base/dict/edit",resourceRemark="跳转修改字典页")
 	@RequestMapping(value = "edit/{id}")
-	public String edit(@PathVariable("id") Long id,Model model) {
+	public String edit(@PathVariable("id") String id,Model model) {
 		model.addAttribute("dict", dictionaryService.findOne(id));
 		return "base/dict/edit";
 
@@ -126,7 +126,7 @@ public class DictionaryController {
 	@PermissionsAnnotation(permission = "baseDictionaryDelete",permissionRemark="删除字典权限",parentPermission="baseDictionarySearch", url = "/base/dict/delete",resourceRemark="删除字典")
 	@RequestMapping(value = "delete/{id}", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxMessage delete(@PathVariable("id") Long id) {
+	public AjaxMessage delete(@PathVariable("id") String id) {
 		dictionaryService.deleteByLogic(id);
 		return AjaxMessage.createSuccessMsg();
 
@@ -142,7 +142,7 @@ public class DictionaryController {
 	@PermissionsAnnotation(permission = "baseDictionaryDelete",permissionRemark="删除字典权限",parentPermission="baseDictionarySearch", url = "/base/dict/deleteAll",resourceRemark="批量删除字典")
 	@RequestMapping(value = "deleteAll", method = RequestMethod.POST)
 	@ResponseBody
-	public AjaxMessage deleteAll(@RequestParam("ids[]") Long... ids) {
+	public AjaxMessage deleteAll(@RequestParam("ids[]") String... ids) {
 		dictionaryService.deleteAllByLogic(ids);
 		return AjaxMessage.createSuccessMsg();
 

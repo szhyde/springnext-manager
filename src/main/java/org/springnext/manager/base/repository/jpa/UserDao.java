@@ -7,6 +7,6 @@ import org.springnext.manager.base.entity.User;
  * @author HyDe
  *
  */
-public interface UserDao extends BaseDao<User, Long> {
+public interface UserDao extends BaseDao<User, String> {
 
 }

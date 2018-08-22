@@ -2,6 +2,7 @@ package org.springnext.manager.base.dto;
 
 import java.io.Serializable;
 import java.util.List;
+import java.util.UUID;
 
 import org.springframework.beans.BeanUtils;
 import org.springnext.manager.base.entity.Role;
@@ -57,5 +58,13 @@ public class RoleDTO extends BaseDTO implements Serializable {
 			returnList.add(transformToRoleDTO(role));
 		}
 		return returnList;
+	}
+	
+	public static void main(String[] args) {
+		System.out.println(UUID.randomUUID().toString());
+		System.out.println(UUID.randomUUID().toString());
+		System.out.println(UUID.randomUUID().toString());
+		System.out.println(UUID.randomUUID().toString());
+		System.out.println(UUID.randomUUID().toString());
 	}
 }

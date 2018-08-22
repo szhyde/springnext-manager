@@ -20,7 +20,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  */
 @Entity
-@Table(name = "t_group")
+@Table(name = "t_sys_group")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Group extends BaseEntity {
 	/**

@@ -14,13 +14,13 @@ import org.springnext.manager.base.repository.jpa.RoleDao;
  */
 @Service
 @Transactional(readOnly=true)
-public class RoleService extends BaseService<Role, Long>{
+public class RoleService extends BaseService<Role, String>{
 
 	@Autowired
 	private RoleDao roleDao;
 
 	@Override
-	protected BaseDao<Role, Long> initBaseDao() {
+	protected BaseDao<Role, String> initBaseDao() {
 		return roleDao;
 	}
 

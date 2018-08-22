@@ -50,7 +50,7 @@ public class CustomUserDetailsService implements UserDetailsService {
 						CriteriaBuilder criteriaBuilder) {
 
 					ListJoin<Permissions, Role> join = root.join(root.getModel().getList("roles", Role.class));
-					Predicate predicate = criteriaBuilder.equal(join.get("tid").as(Long.class),
+					Predicate predicate = criteriaBuilder.equal(join.get("tid").as(String.class),
 							user.getRole().getTid());
 					// 这里面的join代表的是student，属于加入进来的部分，而不是链接表的全部结果；
 					return predicate;

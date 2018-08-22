@@ -13,18 +13,18 @@ public class BaseDTO implements Serializable {
 	/**
 	 * ID
 	 */
-	protected Long tid;
+	protected String tid;
 	/**
 	 * 删除标记，表数据，不作物理删除
 	 */
 	@JsonIgnore
 	protected Boolean isDelete;
 	
-	public Long getTid() {
+	public String getTid() {
 		return tid;
 	}
 
-	public void setTid(Long tid) {
+	public void setTid(String tid) {
 		this.tid = tid;
 	}
 

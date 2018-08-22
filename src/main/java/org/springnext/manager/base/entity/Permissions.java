@@ -23,7 +23,7 @@ import com.fasterxml.jackson.annotation.JsonIgnore;
  *
  */
 @Entity
-@Table(name = "t_permissions")
+@Table(name = "t_sys_permissions")
 @Cache(usage = CacheConcurrencyStrategy.READ_WRITE)
 public class Permissions extends BaseEntity{
 
@@ -65,7 +65,7 @@ public class Permissions extends BaseEntity{
 	 */
 	/*多对多定义*/
 	@ManyToMany
-	@JoinTable(name = "t_role_permissions", joinColumns = { @JoinColumn(name = "permissions_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
+	@JoinTable(name = "t_sys_role_permissions", joinColumns = { @JoinColumn(name = "permissions_id") }, inverseJoinColumns = { @JoinColumn(name = "role_id") })
 	/*加载策略定义*/
 	@Fetch(FetchMode.SUBSELECT)
 	/*集合按id排序*/

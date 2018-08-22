@@ -50,6 +50,7 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
                 .defaultSuccessUrl("/")//设置登录成功后默认跳转
                 .permitAll()
                 .and()
+                //开始iframer
                 .headers().frameOptions().disable()
                 .and()
                 .logout()
@@ -62,6 +63,9 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
       //所以监控不用权限
 //    	http.requestMatcher(EndpointRequest.toAnyEndpoint()).authorizeRequests()
 //        .anyRequest().permitAll();
+        
+        //h2的控制台跳过csrf验证
+        http.csrf().ignoringAntMatchers("/h2-console/**");
 
     }
 

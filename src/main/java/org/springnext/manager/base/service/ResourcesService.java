@@ -14,13 +14,13 @@ import org.springnext.manager.base.repository.jpa.ResourcesDao;
  */
 @Service
 @Transactional(readOnly=true)
-public class ResourcesService extends BaseService<Resources, Long>{
+public class ResourcesService extends BaseService<Resources, String>{
 
 	@Autowired
 	private ResourcesDao resourcesDao;
 
 	@Override
-	protected BaseDao<Resources, Long> initBaseDao() {
+	protected BaseDao<Resources, String> initBaseDao() {
 		return resourcesDao;
 	}
 

@@ -7,7 +7,7 @@ import org.springnext.manager.base.entity.Resources;
  * @author HyDe
  *
  */
-public interface ResourcesDao extends BaseDao<Resources, Long> {
+public interface ResourcesDao extends BaseDao<Resources, String> {
 	
 	Resources findByUrl(String url);
 	

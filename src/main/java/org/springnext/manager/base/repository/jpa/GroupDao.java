@@ -10,7 +10,7 @@ import org.springnext.manager.base.entity.Group;
  * @author HyDe
  *
  */
-public interface GroupDao extends BaseDao<Group, Long> {
+public interface GroupDao extends BaseDao<Group, String> {
 	
 	@Query(value="from Group g where g.parent is null")
 	public List<Group> getParentGroup();

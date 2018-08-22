@@ -25,7 +25,7 @@ import net.sf.ehcache.Element;
  */
 @Service
 @Transactional(readOnly=true)
-public class DictionaryService extends BaseService<Dictionary, Long> {
+public class DictionaryService extends BaseService<Dictionary, String> {
 
 	@Autowired
 	private DictionaryDao dictionaryDao;
@@ -34,7 +34,7 @@ public class DictionaryService extends BaseService<Dictionary, Long> {
 	private Ehcache dictionaryEhcache;
 
 	@Override
-	protected BaseDao<Dictionary, Long> initBaseDao() {
+	protected BaseDao<Dictionary, String> initBaseDao() {
 		return dictionaryDao;
 	}
 

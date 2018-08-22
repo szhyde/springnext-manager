@@ -7,7 +7,10 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<!-- 先以war的方式发布 -->
 	<packaging>jar</packaging>
-	<name>springnext-manager Maven Webapp</name>
+	<name>springnext-manager</name>
+	<url>http://www.springnext.org/</url>
+	<description>springNext管理后台项目</description>
+	
 	<parent>
 		<groupId>org.springframework.boot</groupId>
 		<artifactId>spring-boot-starter-parent</artifactId>
@@ -95,11 +98,6 @@
 		<dependency>
 			<groupId>org.flywaydb</groupId>
 			<artifactId>flyway-core</artifactId>
-		</dependency>
-		<!-- GENERAL UTILS begin -->
-		<dependency>
-			<groupId>commons-codec</groupId>
-			<artifactId>commons-codec</artifactId>
 		</dependency>
 		<!-- google java library -->
 		<dependency>

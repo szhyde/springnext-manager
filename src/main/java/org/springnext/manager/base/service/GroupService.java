@@ -16,7 +16,7 @@ import org.springnext.manager.base.repository.jpa.GroupDao;
  */
 @Service
 @Transactional(readOnly=true)
-public class GroupService extends BaseService<Group, Long>{
+public class GroupService extends BaseService<Group, String>{
     
 	
 	@Autowired
@@ -36,7 +36,7 @@ public class GroupService extends BaseService<Group, Long>{
 
 
 	@Override
-	protected BaseDao<Group, Long> initBaseDao() {
+	protected BaseDao<Group, String> initBaseDao() {
 		return groupDao;
 	}
 	
