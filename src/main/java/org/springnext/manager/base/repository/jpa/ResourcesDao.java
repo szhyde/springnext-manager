@@ -9,6 +9,4 @@ import org.springnext.manager.base.entity.Resources;
  */
 public interface ResourcesDao extends BaseDao<Resources, String> {
 	
-	Resources findByUrl(String url);
-	
 }

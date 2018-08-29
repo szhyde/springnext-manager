@@ -9,6 +9,4 @@ import org.springnext.manager.base.entity.Permissions;
  */
 public interface PermissionsDao extends BaseDao<Permissions, String> {
 	
-//	Permissions findByPermissions(String permissions);
-	
 }

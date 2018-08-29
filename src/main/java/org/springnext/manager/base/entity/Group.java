@@ -26,7 +26,7 @@ public class Group extends BaseEntity {
 	/**
 	 * 
 	 */
-	private static final long serialVersionUID = 8653447792384821493L;
+	private static final long serialVersionUID = 1L;
 	/**
 	 * 用户组名
 	 */

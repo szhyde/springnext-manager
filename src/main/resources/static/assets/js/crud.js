@@ -34,7 +34,9 @@ function tableToolRUD(obj){
 	} else if (obj.event === 'edit') {
 		x_admin_show('修改', './edit/' + data.tid, crudWidth, crudHeight, null, tableReload)
 	} else if (obj.event === 'view') {
-		x_admin_show('查看', './view/' + data.tid, crudWidth, crudHeight, null, tableReload)
+		x_admin_show('查看', './view/' + data.tid, otherWidth, otherHeight, null, tableReload)
+	} else if (obj.event === 'set') {
+		x_admin_show('设置', './set/' + data.tid, otherWidth, otherHeight, null, tableReload)
 	}
 }
 //页面主表格重新加载方法

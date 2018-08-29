@@ -14,8 +14,9 @@ import com.google.common.collect.Maps;
  */
 public class SearchFilter {
 
+	//等于，模糊，大于，小于，大于等于，小于等于，空，非空
 	public enum Operator {
-		EQ, LIKE, GT, LT, GTE, LTE
+		EQ, LIKE, GT, LT, GTE, LTE, NULL,NOT_NULL
 	}
 
 	public String fieldName;

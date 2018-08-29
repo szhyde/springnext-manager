@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org"
+	xmlns:sec="http://www.thymeleaf.org/extras/spring-security">
+<head th:include="layout/templates :: head('权限管理','权限浏览')">
+<meta charset="utf-8" />
+</head>
+
+<body class="layui-anim layui-anim-up">
+	<div class="x-body">
+		<form class="layui-form">
+		<input type="hidden" name="id" th:value="${roleID}">
+		<div class="layui-form-item" th:utext="${permissionsTable}">
+
+		</div>
+		<div class="layui-form-item">
+              <button  class="layui-btn" lay-filter="set" lay-submit>设置</button>
+          </div>
+		</form>
+	</div>
+	<script th:src="@{/assets/lib/layui/layui.all.js}" charset="utf-8"></script>
+	<script type="text/javascript" th:src="@{/assets/js/xadmin.js}"></script>
+	<script type="text/javascript">
+          var form = layui.form
+          ,layer = layui.layer;
+          //监听提交
+          form.on('submit(set)', function(data){
+        	  var ids = new Array();
+        	  $.each(data.form, function(index, d) {
+  				if(d.name=="permissionsID"&&d.checked==true){
+  					ids.push(d.value);
+  				}
+  			});
+            $.ajax({
+    			type : "post",
+    			url : "../setPermissions",
+    			data : {
+    				id:data.field.id,
+					"permissionsID[]" : ids
+				},
+    			success : function(json){
+    				console.info(json);
+    				console.info(json.status);
+    				if(json.success == true){
+    					layer.alert("设置成功", {icon: 6},function () {
+    						x_admin_close();
+    		            });
+    				}else{
+    					layer.msg(json.message);
+    				}
+    			},
+    			error:function(json){
+    				layer.msg("服务器异常，请稍后重试");
+    			}
+    		});
+            
+            return false;
+          });
+    </script>
+</body>
+</html>

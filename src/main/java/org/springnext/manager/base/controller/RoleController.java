@@ -1,5 +1,6 @@
 package org.springnext.manager.base.controller;
 
+import java.util.List;
 import java.util.Map;
 
 import javax.servlet.ServletRequest;
@@ -7,6 +8,8 @@ import javax.validation.Valid;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.data.domain.Page;
+import org.springframework.data.domain.Sort;
+import org.springframework.data.domain.Sort.Direction;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,7 +20,9 @@ import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.bind.annotation.ResponseBody;
 import org.springnext.manager.base.annotation.PermissionsAnnotation;
 import org.springnext.manager.base.dto.RoleDTO;
+import org.springnext.manager.base.entity.Permissions;
 import org.springnext.manager.base.entity.Role;
+import org.springnext.manager.base.service.PermissionsService;
 import org.springnext.manager.base.service.RoleService;
 import org.springnext.manager.base.utils.Servlets;
 import org.springnext.manager.base.vo.AjaxMessage;
@@ -35,6 +40,9 @@ public class RoleController {
 	
 	@Autowired
 	private RoleService roleService;
+	
+	@Autowired
+	private PermissionsService permissionsService;
 	
 	/**
 	 * 跳转到列表页
@@ -167,5 +175,72 @@ public class RoleController {
 		model.addAttribute("role", roleService.findOne(id));
 		return "base/role/edit";
 
+	}
+	
+	@RequestMapping(value = "set/{id}")
+	public String set(@PathVariable("id") String id,Model model) {
+		model.addAttribute("permissionsTable", generatorPermissionsTable(roleService.findOne(id).getPermissions()));
+		model.addAttribute("roleID", id);
+		return "base/role/set";
+	}
+	
+	@RequestMapping(value = "setPermissions")
+	@ResponseBody
+	public AjaxMessage setPermissions(String id,@RequestParam("permissionsID[]") String... permissionsID) {
+		
+		Role role = roleService.findOne(id);
+		
+		role.getPermissions().clear();
+		
+		Permissions per;
+		
+		for (String string : permissionsID) {
+			per = new Permissions();
+			
+			per.setTid(string);
+			
+			role.getPermissions().add(per);
+		}
+		roleService.save(role);
+		
+		
+		return AjaxMessage.createSuccessMsg();
+	}
+	
+	private String generatorPermissionsTable(List<Permissions> seletePermissions){
+		List<Permissions> permissionsList = permissionsService.findAllByAttributesName("NULL_parent", "null", Sort.by(Direction.DESC, "tid"));
+		StringBuilder table = new StringBuilder();
+		table.append("<table style=\"margin: 0px;border:solid #add9c0; border-width:1px 0px 0px 1px;\"><tbody>");
+		for (Permissions permissions : permissionsList) {
+			table.append(generatorTableTD(permissions,seletePermissions));
+			
+		}
+		table.append("</tbody></table>");
+		return table.toString();
+	}
+	
+	private String generatorTableTD(Permissions permissions,List<Permissions> seletePermissions) {
+		StringBuilder td = new StringBuilder();
+		td.append("<tr>");
+		StringBuilder table = new StringBuilder();
+		if(permissions.getChildPermissions()!=null&&permissions.getChildPermissions().size()>0) {
+			table.append("<table style=\"margin: 0px;border:solid #add9c0; border-width:0px 0px 0px 1px;width:100%\"><tbody>");
+			for (Permissions perm : permissions.getChildPermissions()) {
+				table.append(generatorTableTD(perm,seletePermissions));
+			}
+			table.append("</tbody></table>");
+		}
+		td.append("<td style=\"border:solid #add9c0; border-width:0px 0px 1px 0px; \" >");
+		
+		td.append("<input type=\"checkbox\" name=\"permissionsID\" value=\""+permissions.getTid()+"\" title=\""+permissions.getRemark()+"\" lay-skin=\"primary\" "+(seletePermissions.contains(permissions)?"checked":"")+">");
+		td.append("</td>");
+		
+		if(table.length()>0) {
+			td.append("<td style=\"border:solid #add9c0; border-width:0px 1px 0px 0px;\">");
+			td.append(table.toString());
+			td.append("</td>");
+		}
+		td.append("</tr>");
+		return td.toString();
 	}
 }
