@@ -13,13 +13,18 @@ import org.springframework.security.config.annotation.web.configuration.EnableWe
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
+import org.springframework.security.web.authentication.preauth.AbstractPreAuthenticatedProcessingFilter;
 import org.springframework.security.web.util.matcher.AntPathRequestMatcher;
+import org.springnext.manager.base.security.ValidateCodeFilter;
 import org.springnext.manager.base.service.CustomUserDetailsService;
 
 @Configuration
 @EnableWebSecurity
 @EnableGlobalMethodSecurity(prePostEnabled = true)//开启security注解
 public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
+	
+	@Autowired
+	private ValidateCodeFilter validateCodeFilter;
 
     @Bean
     @Override
@@ -32,14 +37,13 @@ public class WebSecurityConfig extends WebSecurityConfigurerAdapter {
     public void configure(WebSecurity web) throws Exception {
         //解决静态资源被拦截的问题
         web.ignoring().antMatchers("/assets/**");
+        web.ignoring().antMatchers("/code");
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
 
-        http.authorizeRequests()
-      //允许所有用户访问"/"和"/home"
-//                .antMatchers("/", "/home").permitAll()
+    	http.addFilterBefore(validateCodeFilter, AbstractPreAuthenticatedProcessingFilter.class).authorizeRequests()
                 //其他地址的访问均需验证权限
                 .anyRequest().authenticated()
                 .and()
