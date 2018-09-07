@@ -1,5 +1,4 @@
 $(function(){
-	
 	// 监听搜索查询
 	layui.form.on('submit(formSearch)', function(data) {
 		var table = layui.table;
@@ -21,24 +20,18 @@ $(function(){
 function tableToolRUD(obj){
 	var data = obj.data;
 	if (obj.event === 'del') {
-		layer.confirm('确定要删除选择的数据吗？', function(index) {
-			$.ajax({
-				type : "post",
-				url : './delete/' + data.tid,
-				success : function(json) {
-					obj.del();
-					layer.close(index);
-				}
-			});
-		});
+		del();
 	} else if (obj.event === 'edit') {
-		x_admin_show('修改', './edit/' + data.tid, crudWidth, crudHeight, null, tableReload)
+		edit();
 	} else if (obj.event === 'view') {
-		x_admin_show('查看', './view/' + data.tid, otherWidth, otherHeight, null, tableReload)
+		view();
 	} else if (obj.event === 'set') {
-		x_admin_show('设置', './set/' + data.tid, otherWidth, otherHeight, null, tableReload)
+		set();
 	}
 }
+
+
+
 //页面主表格重新加载方法
 function tableReload() {
 	layui.table.reload('main_table');
@@ -47,6 +40,32 @@ function tableReload() {
 function add(){
 	x_admin_show('增加','./add',crudWidth, crudHeight,null,tableReload)
 }
+
+function del(){
+	layer.confirm('确定要删除选择的数据吗？', function(index) {
+		$.ajax({
+			type : "post",
+			url : './delete/' + data.tid,
+			success : function(json) {
+				obj.del();
+				layer.close(index);
+			}
+		});
+	});
+}
+
+function edit(){
+	x_admin_show('修改', './edit/' + data.tid, crudWidth, crudHeight, null, tableReload);
+}
+
+function view(){
+	x_admin_show('查看', './view/' + data.tid, otherWidth, otherHeight, null, tableReload)
+}
+
+function set(){
+	x_admin_show('设置', './set/' + data.tid, otherWidth, otherHeight, null, tableReload);
+}
+
 // 批量删除
 function batchDelete() {
 	var checkStatus = layui.table.checkStatus('main_table');
